@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "type": "FOOD",
+        "description": "Burger",
+        "price": 3
+    },
+    {
+        "id": 2,
+        "type": "FOOD",
+        "description": "Chips",
+        "price": 1
+    },
+    {
+        "id": 3,
+        "type": "DRINKS",
+        "description": "Coke",
+        "price": 1
+    },
+    {
+        "id": 4,
+        "type": "DRINKS",
+        "description": "Gin & Tonic",
+        "price": 2
+    }
+]
