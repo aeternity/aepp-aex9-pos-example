@@ -9,7 +9,7 @@
 
     <qrcode-vue
         v-if="state === 'AWAITING'"
-        :value="JSON.stringify(qrdata)"
+        :value="'ZEITFESTIVAL' + JSON.stringify(qrdata)"
         size="300"/>
 
     <span class="icon">
@@ -39,7 +39,7 @@ export default {
   methods: {
     async newInvoice(price) {
       this.invoiceId = await aeternity.pos.methods.new_invoice(price).then(r => r.decodedResult);
-      this.qrdata = {id: this.invoiceId, price};
+      this.qrdata = {invoiceId: this.invoiceId, amount: price};
       this.state = 'AWAITING'
       this.paid = '⌛';
     },

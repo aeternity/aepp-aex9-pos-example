@@ -41,13 +41,12 @@ main contract PoS =
       None => false
       Some(invoice_data) => invoice_data.paid
 
-  stateful entrypoint set_paid(id : int) : bool =
+  stateful entrypoint set_paid(id : int) : unit =
     require(Call.caller == state.token.address, "ONLY TOKEN CAN SET PAID")
     switch(Map.lookup(id, state.invoices))
-      None => false
+      None => abort("INVOICE NOT FOUND")
       Some(invoice_data) =>
         if(invoice_data.paid)
-          true
+          abort("INVOICE ALREADY PAID")
         else
           put(state{ invoices[id].paid = true })
-          true

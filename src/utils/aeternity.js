@@ -7,8 +7,8 @@ const COMPILER_URL = 'https://compiler.aepps.com';
 
 const PUBLIC_KEY = 'ak_BSr9fg46v1iEs7opXEu4i8GjJ5YBassrAf6L2ZBNefbUDJZcq';
 const PRIVATE_KEY = '333ba7ad1f085eb77004d2efbbce9c799f0dae92355f5fe07388bde3b3e8235a17b7d65b741ae288c56638f004e42d52c0e0442b94f1bdd0689b2dae1c65511c';
-const TOKEN_CONTRACT_ADDRESS = 'ct_2VdM5w1WYv3DAETbiEefvQT4UMgar4YWi3FNoTZ2DQTg95MTpE';
-const POS_CONTRACT_ADDRESS = 'ct_2SQD59RZ7CjysiK1Amm1xSwN4YpbZjwfyGuZyMQ1iddsmqdAZC';
+const TOKEN_CONTRACT_ADDRESS = 'ct_VpySwGgWeRgFKjhvHTR81TWpUdfgYAytM2JgLN1qLD7mk453s';
+const POS_CONTRACT_ADDRESS = 'ct_2UCqwfShZCJpN2BmTSN5Bg1N1vHGPoGsf7S5UJf4qH6i47Tich';
 
 const aeternity = {
   client: null,

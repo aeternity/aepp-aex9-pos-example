@@ -24,7 +24,7 @@ include "Option.aes"
 include "String.aes"
 
 contract interface PoS =
-  stateful entrypoint set_paid : (int) => bool
+  stateful entrypoint set_paid : (int) => unit
 
 /// @title - Fungible token with all the extensions - burn, mint, allowances
 main contract FungibleTokenFull =
