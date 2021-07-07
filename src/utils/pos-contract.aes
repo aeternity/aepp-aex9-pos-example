@@ -1,4 +1,3 @@
-module.exports = `
 // ISC License
 // Copyright (c) 2021, aeternity developers
 //
@@ -41,16 +40,14 @@ main contract PoS =
     switch(Map.lookup(id, state.invoices))
       None => false
       Some(invoice_data) => invoice_data.paid
-          
+
   stateful entrypoint set_paid(id : int) : bool =
+    require(Call.caller == state.token.address, "ONLY TOKEN CAN SET PAID")
     switch(Map.lookup(id, state.invoices))
       None => false
       Some(invoice_data) =>
         if(invoice_data.paid)
           true
         else
-          state.token.transfer_allowance(Call.caller, Contract.address, invoice_data.price)
-          state.token.burn(invoice_data.price)
           put(state{ invoices[id].paid = true })
           true
-`;

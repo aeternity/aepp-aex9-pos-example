@@ -7,10 +7,9 @@
 <script>
 import aeternity from '../utils/aeternity';
 import {QrcodeStream} from 'vue3-qrcode-reader';
-import BigNumber from 'bignumber.js';
 
 export default {
-  name: 'App',
+  name: 'Client',
   components: {
     QrcodeStream
   },
@@ -20,30 +19,12 @@ export default {
       state: 'NOT_READY'
     };
   },
-  computed: {
-    ready() {
-      return aeternity.ready;
-    }
-  },
   methods: {
     async onDecode(decodedString) {
-      this.state = '⌛ .';
+      this.state = '⌛';
       const invoiceData = JSON.parse(decodedString);
 
-      const {decodedResult} = await aeternity.token.methods.allowance({
-        from_account: aeternity.client.selectedAddress,
-        for_account: aeternity.posAddress,
-      });
-
-      this.state = '⌛ ..';
-
-
-      const allowanceAmount = decodedResult !== undefined ? new BigNumber(decodedResult).multipliedBy(-1).plus(invoiceData.price).toNumber() : invoiceData.price;
-      await aeternity.token.methods[decodedResult !== undefined ? 'change_allowance' : 'create_allowance'](aeternity.posAddress, allowanceAmount);
-
-      this.state = '⌛ ...';
-
-      await aeternity.pos.methods.set_paid(invoiceData.id).then(r => r.decodedResult);
+      await aeternity.token.methods.burn_trigger_pos(invoiceData.price, aeternity.posContractAddress, invoiceData.id, {gasPrice: 1500000000});
       this.state = '✅';
     }
   },

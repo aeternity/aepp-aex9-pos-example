@@ -23,7 +23,7 @@ import aeternity from '../utils/aeternity'
 import QrcodeVue from 'qrcode.vue';
 
 export default {
-  name: 'App',
+  name: 'PoS',
   components: {
     QrcodeVue,
   },
@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     async newInvoice(price) {
-      this.invoiceId = await aeternity.pos.methods.new_invoice(price).then(r => r.decodedResult);
+      this.invoiceId = await aeternity.pos.methods.new_invoice(price, { gasPrice: 1500000000 }).then(r => r.decodedResult);
       this.qrdata = {id: this.invoiceId, price};
       this.state = 'AWAITING'
       this.paid = '⌛';
