@@ -24,14 +24,13 @@ export default {
       this.state = '⌛';
       const invoiceData = JSON.parse(decodedString);
 
-      await aeternity.token.methods.burn_trigger_pos(invoiceData.price, aeternity.posContractAddress, invoiceData.id, {gasPrice: 1500000000});
+      await aeternity.token.methods.burn_trigger_pos(invoiceData.price, aeternity.posContractAddress, invoiceData.id);
       this.state = '✅';
     }
   },
   async mounted() {
     await aeternity.init();
     this.state = 'READY'
-
   }
 }
 </script>
