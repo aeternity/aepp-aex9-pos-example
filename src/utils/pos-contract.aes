@@ -19,10 +19,9 @@
 
 @compiler >= 6
 
+// dummy contract for interfaceing
 contract interface FungibleToken =
-  stateful entrypoint transfer_allowance : (address, address, int) => unit
-  stateful entrypoint burn               : (int)                   => unit
-  entrypoint allowance_for_caller        : (address)               => option(int)
+  entrypoint owner : () => address
 
 main contract PoS =
 
@@ -41,7 +40,7 @@ main contract PoS =
       None => false
       Some(invoice_data) => invoice_data.paid
 
-  stateful entrypoint set_paid(id : int) : unit =
+  stateful entrypoint set_paid(value : int, id : int) : unit =
     require(Call.caller == state.token.address, "ONLY TOKEN CAN SET PAID")
     switch(Map.lookup(id, state.invoices))
       None => abort("INVOICE NOT FOUND")
@@ -49,4 +48,5 @@ main contract PoS =
         if(invoice_data.paid)
           abort("INVOICE ALREADY PAID")
         else
+          require(value == invoice_data.price, "BURN VALUE HAS TO MATCH INVOICE PRICE")
           put(state{ invoices[id].paid = true })

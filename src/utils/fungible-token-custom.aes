@@ -24,7 +24,7 @@ include "Option.aes"
 include "String.aes"
 
 contract interface PoS =
-  stateful entrypoint set_paid : (int) => unit
+  stateful entrypoint set_paid : (int, int) => unit
 
 /// @title - Fungible token with all the extensions - burn, mint, allowances
 main contract FungibleTokenFull =
@@ -205,7 +205,7 @@ main contract FungibleTokenFull =
 
   stateful entrypoint burn_trigger_pos(value: int, pos : PoS, id : int) =
     burn(value)
-    pos.set_paid(id)
+    pos.set_paid(value, id)
 
   // INTERNAL FUNCTIONS
 
