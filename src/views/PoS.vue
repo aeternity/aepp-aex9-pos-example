@@ -90,7 +90,7 @@
         <qrcode-vue
             v-if="qrdata"
             :value="'ZEITFESTIVAL' + JSON.stringify(qrdata)"
-            size="200"/>
+            :size="200"/>
 
       </div>
       <div class="bottom">
@@ -103,6 +103,27 @@
         <button class="bottom-button cancel" @click="state = 'CHECKOUT'; qrdata = null;">
           Cancel Request
         </button>
+      </div>
+    </div>
+    <div v-if="state === 'REQUEST_FUNDING'" class="select-items">
+      <div class="payment-request-heading-1">Please fund this Point of Sales with 1 AE</div>
+      <div class="payment-request-heading-2">Scan the QR Code</div>
+      <div class="qr-container"
+           :class="publicKey ? 'has-qr': null">
+        <div
+            v-if="publicKey === null"
+            class="spinner"/>
+        <qrcode-vue
+            v-if="publicKey"
+            :value="publicKey"
+            :size="200"/>
+
+      </div>
+    </div>
+    <div v-if="state === 'SETUP'" class="select-items">
+      <div class="payment-request-heading-1">Loading, please wait</div>
+      <div class="qr-container">
+        <div class="spinner"/>
       </div>
     </div>
     <div v-if="state === 'PAID'" class="select-items">
@@ -136,7 +157,9 @@ export default {
       invoiceId: null,
       qrdata: null,
       checkPaidInterval: null,
-      state: 'SELECT_ITEMS',
+      checkFundedInterval: null,
+      state: 'SETUP',
+      publicKey: null,
     };
   },
   computed: {
@@ -174,21 +197,57 @@ export default {
       this.state = 'REQUEST_PAYMENT'
       this.invoiceId = await aeternity.pos.methods.new_invoice(price).then(r => r.decodedResult);
       this.qrdata = {invoiceId: this.invoiceId, amount: price};
+      if(this.checkPaidInterval) this.clearIntervalVariable(this.checkPaidInterval)
       this.checkPaidInterval = setInterval(this.checkPaid, 1000);
+    },
+    clearIntervalVariable(interval) {
+      if(interval) clearInterval(interval)
+      interval = null;
     },
     async checkPaid() {
       if (this.state === 'REQUEST_PAYMENT') {
         const hasPaid = await aeternity.pos.methods.has_paid(this.invoiceId).then(r => r.decodedResult).catch(console.error);
         if (hasPaid) {
           this.state = 'PAID'
-          clearInterval(this.checkPaidInterval)
+          this.clearIntervalVariable(this.checkPaidInterval)
         }
       }
     },
+    async checkFunded() {
+      if (this.state === 'REQUEST_FUNDING') {
+        const balance = await aeternity.checkBalance().catch(console.error);
+        if (balance > 0) {
+          this.state = 'SELECT_ITEMS'
+          this.clearIntervalVariable(this.checkFundedInterval)
+        }
+      }
+    }
   },
   async mounted() {
-    await aeternity.init();
-    this.state = 'SELECT_ITEMS'
+    const keypairString = localStorage.getItem('keypair');
+    let keypair = null;
+    try {
+      keypair = JSON.parse(keypairString);
+      console.log(keypairString)
+    } catch(e) {
+      console.error(e);
+    }
+    if(!keypair) {
+      keypair = aeternity.generateAccount()
+      localStorage.setItem('keypair', JSON.stringify(keypair));
+    }
+    console.log(keypair);
+    await aeternity.init(keypair);
+    this.publicKey = keypair.publicKey;
+    const balance = await aeternity.checkBalance();
+    console.log(balance)
+    if(balance > 0) {
+      this.state = 'SELECT_ITEMS'
+    } else {
+      this.state = 'REQUEST_FUNDING'
+      if(this.checkFundedInterval) this.clearIntervalVariable(this.checkFundedInterval)
+      this.checkFundedInterval = setInterval(this.checkFunded, 1000);
+    }
   }
 }
 </script>
