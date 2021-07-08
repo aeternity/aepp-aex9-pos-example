@@ -1,6 +1,6 @@
 <template>
-  <div id="content">
-    <div v-if="state === 'SELECT_ITEMS'" class="select-items">
+  <div v-if="state === 'SELECT_ITEMS'" class="content">
+    <div class="header">
       <button
           class="filter-button"
           :class="filter === 'ALL' ? 'selected' : null"
@@ -19,7 +19,8 @@
           @click="filter = 'FOOD'">
         🍔 Food
       </button>
-
+    </div>
+    <div class="main">
       <div class="item-heading">Select Items</div>
 
       <div
@@ -33,55 +34,63 @@
           <button class="item-add-button" @click="addItem(item)">+</button>
         </div>
       </div>
-
-      <div class="bottom">
-        <div class="bottom-divider"/>
-        <div class="bottom-summary">Items
-          <div class="bottom-summary-right">
-            {{ cart.length }}
-          </div>
-        </div>
-        <button class="bottom-button" @click="state = 'CHECKOUT'">
-          🛒 Checkout
-        </button>
-      </div>
     </div>
-    <div v-if="state === 'CHECKOUT'" class="select-items">
 
+    <div class="bottom">
+      <div class="bottom-divider"/>
+      <div class="bottom-summary">Items
+        <div class="bottom-summary-right">
+          {{ cart.length }}
+        </div>
+      </div>
+      <button class="bottom-button" @click="state = 'CHECKOUT'">
+        🛒 Checkout
+      </button>
+    </div>
+  </div>
+  <div v-if="state === 'CHECKOUT'" class="content">
+    <div class="header">
       <div class="back-button">
         <button @click="state = 'SELECT_ITEMS'"><img src="../assets/img/back-arrow.svg"></button>
         <div class="checkout-heading">Order Details</div>
       </div>
+    </div>
 
+    <div class="main">
       <div
           class="item"
           v-for="item in cartItems"
           :key="item.id">
         <div class="item-description">{{ item.description }}</div>
         <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
-        <div class="item-total">€ {{ item.price * cart.filter(i => i.id === item.id).length }}</div>
+        <div class="item-total">€ {{ item.price * pricePerToken * cart.filter(i => i.id === item.id).length }}</div>
         <div class="item-buttons">
           <button class="item-remove-button" @click="removeItem(item)">-</button>
           {{ cart.filter(i => i.id === item.id).length }}
           <button class="item-add-button" @click="addItem(item)">+</button>
         </div>
       </div>
-
-      <div class="bottom">
-        <div class="bottom-divider"/>
-        <div class="bottom-summary">Total
-          <div class="bottom-summary-right">
-            € {{ totalPrice }} ({{ totalTokens }} Tokens)
-          </div>
-        </div>
-        <button class="bottom-button" @click="newInvoice(totalTokens)">
-          💸 Request Payment
-        </button>
-      </div>
     </div>
-    <div v-if="state === 'REQUEST_PAYMENT'" class="select-items">
+
+    <div class="bottom">
+      <div class="bottom-divider"/>
+      <div class="bottom-summary">Total
+        <div class="bottom-summary-right">
+          € {{ totalPrice }} ({{ totalTokens }} Tokens)
+        </div>
+      </div>
+      <button class="bottom-button" @click="newInvoice(totalTokens)">
+        💸 Request Payment
+      </button>
+    </div>
+  </div>
+  <div v-if="state === 'REQUEST_PAYMENT'" class="content">
+    <div class="header">
       <div class="payment-request-heading-1">Payment Request</div>
       <div class="payment-request-heading-2">Scan the QR Code</div>
+    </div>
+
+    <div class="main">
       <div class="qr-container"
            :class="qrdata ? 'has-qr': null">
         <div
@@ -93,21 +102,28 @@
             :size="200"/>
 
       </div>
-      <div class="bottom">
-        <div class="bottom-divider"/>
-        <div class="bottom-summary">Total
-          <div class="bottom-summary-right">
-            € {{ totalPrice }} ({{ totalTokens }} Tokens)
-          </div>
-        </div>
-        <button class="bottom-button cancel" @click="state = 'CHECKOUT'; qrdata = null;">
-          Cancel Request
-        </button>
-      </div>
     </div>
-    <div v-if="state === 'REQUEST_FUNDING'" class="select-items">
+
+    <div class="bottom">
+      <div class="bottom-divider"/>
+      <div class="bottom-summary">Total
+        <div class="bottom-summary-right">
+          € {{ totalPrice }} ({{ totalTokens }} Tokens)
+        </div>
+      </div>
+      <button class="bottom-button cancel" @click="state = 'CHECKOUT'; qrdata = null;">
+        Cancel Request
+      </button>
+    </div>
+  </div>
+  <div v-if="state === 'REQUEST_FUNDING'" class="content">
+    <div class="header">
+
       <div class="payment-request-heading-1">Please fund this Point of Sales with 1 AE</div>
       <div class="payment-request-heading-2">Scan the QR Code</div>
+    </div>
+
+    <div class="main">
       <div class="qr-container"
            :class="publicKey ? 'has-qr': null">
         <div
@@ -120,22 +136,29 @@
 
       </div>
     </div>
-    <div v-if="state === 'SETUP'" class="select-items">
+  </div>
+  <div v-if="state === 'SETUP'" class="content">
+    <div class="header">
       <div class="payment-request-heading-1">Loading, please wait</div>
+    </div>
+    <div class="main">
       <div class="qr-container">
         <div class="spinner"/>
       </div>
     </div>
-    <div v-if="state === 'PAID'" class="select-items">
+  </div>
+  <div v-if="state === 'PAID'" class="content">
+    <div class="header">
       <div class="payment-request-heading-1">Payment Successful</div>
-      <div class="success-container">✅</div>
-      <div class="bottom">
-        <button class="bottom-button" @click="reset()">
-          Continue
-        </button>
-      </div>
     </div>
-
+    <div class="main">
+      <div class="success-container">✅</div>
+    </div>
+    <div class="bottom">
+      <button class="bottom-button" @click="reset()">
+        Continue
+      </button>
+    </div>
   </div>
 </template>
 
@@ -197,11 +220,11 @@ export default {
       this.state = 'REQUEST_PAYMENT'
       this.invoiceId = await aeternity.pos.methods.new_invoice(price).then(r => r.decodedResult);
       this.qrdata = {invoiceId: this.invoiceId, amount: price};
-      if(this.checkPaidInterval) this.clearIntervalVariable(this.checkPaidInterval)
+      if (this.checkPaidInterval) this.clearIntervalVariable(this.checkPaidInterval)
       this.checkPaidInterval = setInterval(this.checkPaid, 1000);
     },
     clearIntervalVariable(interval) {
-      if(interval) clearInterval(interval)
+      if (interval) clearInterval(interval)
       interval = null;
     },
     async checkPaid() {
@@ -229,10 +252,10 @@ export default {
     try {
       keypair = JSON.parse(keypairString);
       console.log(keypairString)
-    } catch(e) {
+    } catch (e) {
       console.error(e);
     }
-    if(!keypair) {
+    if (!keypair) {
       keypair = aeternity.generateAccount()
       localStorage.setItem('keypair', JSON.stringify(keypair));
     }
@@ -241,11 +264,11 @@ export default {
     this.publicKey = keypair.publicKey;
     const balance = await aeternity.checkBalance();
     console.log(balance)
-    if(balance > 0) {
+    if (balance > 0) {
       this.state = 'SELECT_ITEMS'
     } else {
       this.state = 'REQUEST_FUNDING'
-      if(this.checkFundedInterval) this.clearIntervalVariable(this.checkFundedInterval)
+      if (this.checkFundedInterval) this.clearIntervalVariable(this.checkFundedInterval)
       this.checkFundedInterval = setInterval(this.checkFunded, 1000);
     }
   }
@@ -255,17 +278,29 @@ export default {
 <style lang="scss">
 @use "sass:color";
 
-#app {
-  font-family: "Rubik", Avenir, Helvetica, Arial, sans-serif;
+html, body, #app {
+  margin: 0;
+  height: 100vh;
+
+  font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   color: #181818;
   letter-spacing: 0.03rem;
 }
 
-#content {
+.content {
   max-width: 400px;
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
 }
 
 button {
@@ -291,7 +326,6 @@ button {
 .back-button {
   position: relative;
   margin: 1rem 0;
-
 
   button {
     padding: 0.5rem;
@@ -391,7 +425,7 @@ button {
     }
 
     :hover {
-    transform: scale3d(1.25, 1.25, 1);
+      transform: scale3d(1.25, 1.25, 1);
     }
 
     .item-remove-button {
