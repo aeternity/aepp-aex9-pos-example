@@ -1,276 +1,40 @@
 <template>
-  <div v-if="state === 'SELECT_ITEMS'" class="content">
-    <div class="header">
-      <button
-          class="filter-button"
-          :class="filter === 'ALL' ? 'selected' : null"
-          @click="filter = 'ALL'">
-        All
-      </button>
-      <button
-          class="filter-button"
-          :class="filter === 'DRINKS' ? 'selected' : null"
-          @click="filter = 'DRINKS'">
-        🍹 Drinks
-      </button>
-      <button
-          class="filter-button"
-          :class="filter === 'FOOD' ? 'selected' : null"
-          @click="filter = 'FOOD'">
-        🍔 Food
-      </button>
-    </div>
-    <div class="main">
-      <div class="item-heading">Select Items</div>
+  <Setup v-if="page === 'SETUP'"/>
+  <RequestFunding v-if="page === 'REQUEST_FUNDING'"/>
+  <SelectItems v-if="page === 'SELECT_ITEMS'"/>
+  <Checkout v-if="page === 'CHECKOUT'"/>
+  <RequestPayment v-if="page === 'REQUEST_PAYMENT'"/>
+  <Paid v-if="page === 'PAID'"/>
 
-      <div
-          class="item"
-          v-for="item in filteredItems"
-          :key="item.id">
-        <div class="item-description">{{ item.description }}</div>
-        <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
-        <div class="item-buttons">
-
-          <button class="item-add-button" @click="addItem(item)">+</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="bottom">
-      <div class="bottom-divider"/>
-      <div class="bottom-summary">Items
-        <div class="bottom-summary-right">
-          {{ cart.length }}
-        </div>
-      </div>
-      <button class="bottom-button" @click="state = 'CHECKOUT'">
-        🛒 Checkout
-      </button>
-    </div>
-  </div>
-  <div v-if="state === 'CHECKOUT'" class="content">
-    <div class="header">
-      <div class="back-button">
-        <button @click="state = 'SELECT_ITEMS'"><img src="../assets/img/back-arrow.svg"></button>
-        <div class="checkout-heading">Order Details</div>
-      </div>
-    </div>
-
-    <div class="main">
-      <div
-          class="item"
-          v-for="item in cartItems"
-          :key="item.id">
-        <div class="item-description">{{ item.description }}</div>
-        <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
-        <div class="item-total">€ {{ item.price * pricePerToken * cart.filter(i => i.id === item.id).length }}</div>
-        <div class="item-buttons">
-          <button class="item-remove-button" @click="removeItem(item)">-</button>
-          {{ cart.filter(i => i.id === item.id).length }}
-          <button class="item-add-button" @click="addItem(item)">+</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="bottom">
-      <div class="bottom-divider"/>
-      <div class="bottom-summary">Total
-        <div class="bottom-summary-right">
-          € {{ totalPrice }} ({{ totalTokens }} Tokens)
-        </div>
-      </div>
-      <button class="bottom-button" @click="newInvoice(totalTokens)">
-        💸 Request Payment
-      </button>
-    </div>
-  </div>
-  <div v-if="state === 'REQUEST_PAYMENT'" class="content">
-    <div class="header">
-      <div class="payment-request-heading-1">Payment Request</div>
-      <div class="payment-request-heading-2">Scan the QR Code</div>
-    </div>
-
-    <div class="main">
-      <div class="qr-container"
-           :class="qrdata ? 'has-qr': null">
-        <div
-            v-if="qrdata === null"
-            class="spinner"/>
-        <qrcode-vue
-            v-if="qrdata"
-            :value="'ZEITFESTIVAL' + JSON.stringify(qrdata)"
-            :size="200"/>
-
-      </div>
-    </div>
-
-    <div class="bottom">
-      <div class="bottom-divider"/>
-      <div class="bottom-summary">Total
-        <div class="bottom-summary-right">
-          € {{ totalPrice }} ({{ totalTokens }} Tokens)
-        </div>
-      </div>
-      <button class="bottom-button cancel" @click="state = 'CHECKOUT'; qrdata = null;">
-        Cancel Request
-      </button>
-    </div>
-  </div>
-  <div v-if="state === 'REQUEST_FUNDING'" class="content">
-    <div class="header">
-
-      <div class="payment-request-heading-1">Please fund this Point of Sales with 1 AE</div>
-      <div class="payment-request-heading-2">Scan the QR Code</div>
-    </div>
-
-    <div class="main">
-      <div class="qr-container"
-           :class="publicKey ? 'has-qr': null">
-        <div
-            v-if="publicKey === null"
-            class="spinner"/>
-        <qrcode-vue
-            v-if="publicKey"
-            :value="publicKey"
-            :size="200"/>
-
-      </div>
-    </div>
-  </div>
-  <div v-if="state === 'SETUP'" class="content">
-    <div class="header">
-      <div class="payment-request-heading-1">Loading, please wait</div>
-    </div>
-    <div class="main">
-      <div class="qr-container">
-        <div class="spinner"/>
-      </div>
-    </div>
-  </div>
-  <div v-if="state === 'PAID'" class="content">
-    <div class="header">
-      <div class="payment-request-heading-1">Payment Successful</div>
-    </div>
-    <div class="main">
-      <div class="success-container">✅</div>
-    </div>
-    <div class="bottom">
-      <button class="bottom-button" @click="reset()">
-        Continue
-      </button>
-    </div>
-  </div>
 </template>
 
 <script>
-import aeternity from '../utils/aeternity'
-import QrcodeVue from 'qrcode.vue';
-import items from '../assets/content/items.json';
+import SelectItems from "@/components/SelectItems";
+import Checkout from "@/components/Checkout";
+import Setup from "@/components/Setup";
+import {mapMutations, mapState} from "vuex";
+import RequestPayment from "@/components/RequestPayment";
+import Paid from "@/components/Paid";
+import RequestFunding from "@/components/RequestFunding";
 
 export default {
   name: 'PoS',
   components: {
-    QrcodeVue,
-  },
-  data() {
-    return {
-      pricePerToken: 3,
-      cart: [],
-      filter: 'ALL',
-      invoiceId: null,
-      qrdata: null,
-      checkPaidInterval: null,
-      checkFundedInterval: null,
-      state: 'SETUP',
-      publicKey: null,
-    };
+    Paid,
+    RequestPayment,
+    SelectItems,
+    Checkout,
+    Setup,
+    RequestFunding,
   },
   computed: {
-    filteredItems() {
-      return this.filter === 'ALL' ? items : items.filter(item => item.type === this.filter)
-    },
-    cartItems() {
-      const cartIds = this.cart.map(item => item.id);
-      return items.filter(item => cartIds.includes(item.id));
-    },
-    totalPrice() {
-      return this.cart.reduce((acc, item) => acc + item.price * this.pricePerToken, 0);
-    },
-    totalTokens() {
-      return this.cart.reduce((acc, item) => acc + item.price, 0);
-    },
+    ...mapState(['page']),
   },
   methods: {
-    reset() {
-      this.state = 'SELECT_ITEMS'
-      this.cart = []
-      this.invoiceId = null
-      this.qrdata = null
-    },
-    removeItem(item) {
-      const thisItems = this.cart.filter(i => i.id === item.id);
-      const otherItems = this.cart.filter(i => i.id !== item.id);
-      thisItems.shift();
-      this.cart = otherItems.concat(thisItems);
-    },
-    addItem(item) {
-      this.cart.push(item);
-    },
-    async newInvoice(price) {
-      this.state = 'REQUEST_PAYMENT'
-      this.invoiceId = await aeternity.pos.methods.new_invoice(price).then(r => r.decodedResult);
-      this.qrdata = {invoiceId: this.invoiceId, amount: price};
-      if (this.checkPaidInterval) this.clearIntervalVariable(this.checkPaidInterval)
-      this.checkPaidInterval = setInterval(this.checkPaid, 1000);
-    },
-    clearIntervalVariable(interval) {
-      if (interval) clearInterval(interval)
-      interval = null;
-    },
-    async checkPaid() {
-      if (this.state === 'REQUEST_PAYMENT') {
-        const hasPaid = await aeternity.pos.methods.has_paid(this.invoiceId).then(r => r.decodedResult).catch(console.error);
-        if (hasPaid) {
-          this.state = 'PAID'
-          this.clearIntervalVariable(this.checkPaidInterval)
-        }
-      }
-    },
-    async checkFunded() {
-      if (this.state === 'REQUEST_FUNDING') {
-        const balance = await aeternity.checkBalance().catch(console.error);
-        if (balance > 0) {
-          this.state = 'SELECT_ITEMS'
-          this.clearIntervalVariable(this.checkFundedInterval)
-        }
-      }
-    }
+    ...mapMutations(['changePage'])
   },
-  async mounted() {
-    const keypairString = localStorage.getItem('keypair');
-    let keypair = null;
-    try {
-      keypair = JSON.parse(keypairString);
-      console.log(keypairString)
-    } catch (e) {
-      console.error(e);
-    }
-    if (!keypair) {
-      keypair = aeternity.generateAccount()
-      localStorage.setItem('keypair', JSON.stringify(keypair));
-    }
-    console.log(keypair);
-    await aeternity.init(keypair);
-    this.publicKey = keypair.publicKey;
-    const balance = await aeternity.checkBalance();
-    console.log(balance)
-    if (balance > 0) {
-      this.state = 'SELECT_ITEMS'
-    } else {
-      this.state = 'REQUEST_FUNDING'
-      if (this.checkFundedInterval) this.clearIntervalVariable(this.checkFundedInterval)
-      this.checkFundedInterval = setInterval(this.checkFunded, 1000);
-    }
+  mounted() {
+    this.changePage('SETUP')
   }
 }
 </script>
@@ -290,7 +54,7 @@ html, body, #app {
   letter-spacing: 0.03rem;
 }
 
-.content {
+#app {
   max-width: 400px;
   margin: auto;
   display: flex;

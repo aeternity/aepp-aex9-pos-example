@@ -12,43 +12,43 @@
         "price": 3
     },
     {
-        "id": 2,
+        "id": 3,
         "type": "FOOD",
         "description": "Dinner",
         "price": 4
     },
     {
-        "id": 3,
+        "id": 4,
         "type": "DRINKS",
         "description": "Water",
         "price": 1
     },
     {
-        "id": 4,
+        "id": 5,
         "type": "DRINKS",
         "description": "Beer",
         "price": 1
     },
     {
-        "id": 5,
+        "id": 6,
         "type": "DRINKS",
         "description": "Sekt",
         "price": 1
     },
     {
-        "id": 6,
+        "id": 7,
         "type": "DRINKS",
         "description": "Gin Tonic",
         "price": 3
     },
     {
-        "id": 7,
+        "id": 8,
         "type": "DRINKS",
         "description": "Vodka Soda",
         "price": 3
     },
     {
-        "id": 8,
+        "id": 9,
         "type": "DRINKS",
         "description": "Cocktail",
         "price": 3

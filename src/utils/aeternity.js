@@ -25,6 +25,10 @@ aeternity.checkBalance = async () => {
   return aeternity.client.getBalance(address);
 }
 
+aeternity.getPublicKey = () => {
+  return aeternity.client.address();
+}
+
 aeternity.init = async ({publicKey, secretKey}) => {
   aeternity.client = await Universal({
     compilerUrl: COMPILER_URL,
