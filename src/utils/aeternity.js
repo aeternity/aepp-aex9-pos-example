@@ -1,6 +1,6 @@
 import {Node, Universal, MemoryAccount, Crypto} from '@aeternity/aepp-sdk/es';
-import FUNGIBLE_TOKEN_CONTRACT_INTERFACE from './fungible-token-custom-interface.aes';
-import POS_CONTRACT_INTERFACE from './pos-contract-interface.aes';
+import FUNGIBLE_TOKEN_CONTRACT_INTERFACE from '../assets/contracts/fungible-token-custom-interface.aes';
+import POS_CONTRACT_INTERFACE from '../assets/contracts/pos-contract-interface.aes';
 
 const TESTNET_URL = 'https://testnet.aeternity.io';
 const COMPILER_URL = 'https://compiler.aepps.com';

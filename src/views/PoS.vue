@@ -165,7 +165,7 @@
 <script>
 import aeternity from '../utils/aeternity'
 import QrcodeVue from 'qrcode.vue';
-import items from '../utils/items.json';
+import items from '../assets/content/items.json';
 
 export default {
   name: 'PoS',
