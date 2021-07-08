@@ -37,7 +37,9 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  src: local("Rubik"),
+   url(../assets/fonts/Rubik-Regular.ttf) format("truetype");
+  font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

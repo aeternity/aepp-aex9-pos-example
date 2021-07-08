@@ -49,7 +49,7 @@
     <div v-if="state === 'CHECKOUT'" class="select-items">
 
       <div class="back-button">
-        <button @click="state = 'SELECT_ITEMS'">&lt;</button>
+        <button @click="state = 'SELECT_ITEMS'"><img src="../assets/img/back-arrow.svg"></button>
         <div class="checkout-heading">Order Details</div>
       </div>
 
@@ -197,7 +197,7 @@ export default {
 @use "sass:color";
 
 #app {
-  font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Rubik", Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #181818;
@@ -221,6 +221,7 @@ button {
   padding: 0.5rem;
   margin: 1rem 0.5rem;
   min-width: 4rem;
+  outline: none;
 
   &.selected {
     color: #fff;
@@ -232,10 +233,11 @@ button {
   position: relative;
   margin: 1rem 0;
 
+
   button {
     padding: 0.5rem;
-    border-radius: 1rem;
-    min-width: 3rem;
+    border-radius: 0.6rem;
+    min-width: 2.5rem;
     color: #fff;
     background: #d12754;
   }
@@ -326,6 +328,11 @@ button {
       height: 1.5rem;
       text-align: center;
       margin: 0 0.4rem;
+      transition: transform 150ms ease-in-out;
+    }
+
+    :hover {
+    transform: scale3d(1.25, 1.25, 1);
     }
 
     .item-remove-button {
