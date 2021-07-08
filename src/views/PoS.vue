@@ -178,7 +178,7 @@ export default {
     },
     async checkPaid() {
       if (this.state === 'REQUEST_PAYMENT') {
-        const hasPaid = await aeternity.pos.methods.has_paid(this.invoiceId).then(r => r.decodedResult);
+        const hasPaid = await aeternity.pos.methods.has_paid(this.invoiceId).then(r => r.decodedResult).catch(console.error);
         if (hasPaid) {
           this.state = 'PAID'
           clearInterval(this.checkPaidInterval)
