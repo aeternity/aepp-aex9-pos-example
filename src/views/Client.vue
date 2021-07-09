@@ -36,9 +36,9 @@ export default {
 </script>
 
 <style>
+@import "~@/assets/styles/styles.scss";
+
 #app {
-  src: local("Rubik"),
-   url(../assets/fonts/Rubik-Regular.ttf) format("truetype");
   font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

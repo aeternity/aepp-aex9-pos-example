@@ -41,6 +41,7 @@ export default {
 
 <style lang="scss">
 @use "sass:color";
+@import "~@/assets/styles/styles.scss";
 
 html, body, #app {
   margin: 0;
