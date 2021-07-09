@@ -26,8 +26,11 @@
         class="item"
         v-for="item in filteredItems"
         :key="item.id">
-      <div class="item-description">{{ item.description }}</div>
-      <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
+      <div class="item-icon"> {{ item.icon }}</div>
+      <div class="item-main">
+        <div class="item-description">{{ item.description }}</div>
+        <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
+      </div>
       <div class="item-buttons">
 
         <button class="item-add-button" @click="addToCart(item)">+</button>
@@ -42,7 +45,7 @@
         {{ cart.length }}
       </div>
     </div>
-    <button class="bottom-button" @click="changePage('CHECKOUT')">
+    <button class="bottom-button" @click="changePage('CHECKOUT')" :disabled="cart.length === 0">
       🛒 Checkout
     </button>
   </div>
@@ -76,18 +79,17 @@ export default {
 
 .item-heading {
   color: #181818;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   font-weight: bold;
 }
-
 
 .filter-button {
   cursor: pointer;
   border-radius: 1rem;
   color: #d12754;
   background: color.adjust(#d12754, $alpha: -0.9);
-  padding: 0.5rem;
-  margin: 1rem 0.5rem;
+  padding: 0.5rem 0.8rem;
+  margin: 0 0.5rem 1rem 0;
   min-width: 4rem;
   outline: none;
 

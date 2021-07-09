@@ -20,12 +20,15 @@ const store = createStore({
       const thisItems = state.cart.filter(i => i.id === item.id);
       const otherItems = state.cart.filter(i => i.id !== item.id);
       thisItems.shift();
-      state.cart = otherItems.concat(thisItems);
+      const cartItems = otherItems.concat(thisItems);
+      if (cartItems.length === 0) state.page = 'SELECT_ITEMS';
+      state.cart = cartItems;
     },
     changePage(state, page) {
       state.page = page;
     },
   },
+
   getters: {
     totalPrice(state) {
       return state.cart.reduce((acc, item) => acc + item.price * state.pricePerToken, 0);

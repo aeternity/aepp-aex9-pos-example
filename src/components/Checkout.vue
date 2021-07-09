@@ -11,12 +11,15 @@
         class="item"
         v-for="item in cartItems"
         :key="item.id">
-      <div class="item-description">{{ item.description }}</div>
-      <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
-      <div class="item-total">€ {{ item.price * pricePerToken * cart.filter(i => i.id === item.id).length }}</div>
+      <div class="item-icon"> {{ item.icon }}</div>
+      <div class="item-main">
+        <div class="item-description">{{ item.description }}</div>
+        <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
+        <div class="item-total">€ {{ item.price * pricePerToken * cart.filter(i => i.id === item.id).length }}</div>
+      </div>
       <div class="item-buttons">
         <button class="item-remove-button" @click="removeFromCart(item)">-</button>
-        {{ cart.filter(i => i.id === item.id).length }}
+        <div>{{ cart.filter(i => i.id === item.id).length }}</div>
         <button class="item-add-button" @click="addToCart(item)">+</button>
       </div>
     </div>
@@ -55,12 +58,15 @@ export default {
 
 .back-button {
   position: relative;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
 
   button {
-    padding: 0.5rem;
     border-radius: 0.6rem;
-    min-width: 2.5rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
     color: #fff;
     background: #d12754;
   }
