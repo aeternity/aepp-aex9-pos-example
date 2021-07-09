@@ -26,7 +26,7 @@ include "String.aes"
 contract interface PoS =
   stateful entrypoint set_paid : (int, int) => unit
 
-/// @title - Fungible token with all the extensions - burn, mint, allowances
+/// @title - Fungible token with all the extensions - burn, allowances
 main contract FungibleTokenFull =
 
   // This defines the state of type record encapsulating the contract's mutable state
@@ -59,11 +59,10 @@ main contract FungibleTokenFull =
     Transfer(address, address, int)
     | Allowance(address, address, int)
     | Burn(address, int)
-    | Mint(address, int)
     | Swap(address, int)
 
   // List of supported extensions
-  entrypoint aex9_extensions() : list(string) = ["allowances", "mintable", "burnable", "swappable"]
+  entrypoint aex9_extensions() : list(string) = ["allowances", "burnable", "swappable"]
 
   // Create a fungible token with
   // the following \`name\` \`symbol\` and \`decimals\`
@@ -185,14 +184,6 @@ main contract FungibleTokenFull =
     require_non_negative_value(value)
     put(state{ total_supply = state.total_supply - value, balances[Call.caller] @ b = b - value })
     Chain.event(Burn(Call.caller, value))
-
-  // Creates \`value\` tokens and assigns them to \`account\`, increasing the total supply.
-  // Emits a \`Mint\` event with \`account\` and \`value\`.
-  stateful entrypoint mint(account: address, value: int) =
-    require_owner()
-    require_non_negative_value(value)
-    put(state{ total_supply = state.total_supply + value, balances[account = 0] @ b = b + value })
-    Chain.event(Mint(account, value))
 
   stateful entrypoint swap() =
     let balance = Map.lookup_default(Call.caller, state.balances, 0)
