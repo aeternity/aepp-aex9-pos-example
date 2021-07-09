@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="payment-request-heading-1">Payment Successful</div>
+    <div class="heading-primary">Payment Successful</div>
   </div>
   <div class="main">
     <div class="success-container">✅</div>
@@ -26,3 +26,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.success-container {
+  font-size: 6rem;
+  text-align: center;
+  margin: 6rem 0;
+}
+</style>

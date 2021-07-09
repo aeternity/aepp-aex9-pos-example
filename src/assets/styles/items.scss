@@ -1,0 +1,50 @@
+@use "sass:color";
+
+.item {
+  padding: 0.5rem;
+  position: relative;
+
+  .item-description {
+    font-weight: bold;
+  }
+
+  .item-price {
+    color: #3B3B3B;
+    opacity: 0.3;
+    font-size: 0.9rem;
+  }
+
+  .item-total {
+    margin-top: 0.4rem;
+  }
+
+  .item-buttons {
+    position: absolute;
+    top: 1rem;
+    right: 0;
+
+    button {
+      cursor: pointer;
+      border-radius: 0.4rem;
+      width: 1.5rem;
+      height: 1.5rem;
+      text-align: center;
+      margin: 0 0.4rem;
+      transition: transform 150ms ease-in-out;
+    }
+
+    :hover {
+      transform: scale3d(1.25, 1.25, 1);
+    }
+
+    .item-remove-button {
+      color: #161616;
+      background: color.adjust(#161616, $alpha: -0.9);
+    }
+
+    .item-add-button {
+      color: #fff;
+      background: #161616;
+    }
+  }
+}

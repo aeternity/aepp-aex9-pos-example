@@ -1,7 +1,7 @@
 <template>
   <div class="header">
-    <div class="payment-request-heading-1">Payment Request</div>
-    <div class="payment-request-heading-2">Scan the QR Code</div>
+    <div class="heading-primary">Payment Request</div>
+    <div class="heading-secondary">Scan the QR Code</div>
   </div>
 
   <div class="main">
@@ -73,3 +73,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import "~@/assets/styles/qr-container.scss";
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <div class="payment-request-heading-1">Loading, please wait</div>
+    <div class="heading-primary">Loading, please wait</div>
   </div>
   <div class="main">
     <div class="qr-container">
@@ -39,7 +39,6 @@ export default {
     }
 
     await aeternity.init(keypair);
-    aeternity.client.spend(1, keypair.publicKey);
     const balance = await aeternity.checkBalance().catch(console.error);
 
     if (balance && balance > 0) {
@@ -50,3 +49,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import "~@/assets/styles/qr-container.scss";
+</style>

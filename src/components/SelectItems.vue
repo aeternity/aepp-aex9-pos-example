@@ -70,3 +70,30 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@use "sass:color";
+
+.item-heading {
+  color: #181818;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+
+.filter-button {
+  cursor: pointer;
+  border-radius: 1rem;
+  color: #d12754;
+  background: color.adjust(#d12754, $alpha: -0.9);
+  padding: 0.5rem;
+  margin: 1rem 0.5rem;
+  min-width: 4rem;
+  outline: none;
+
+  &.selected {
+    color: #fff;
+    background: #d12754;
+  }
+}
+</style>

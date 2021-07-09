@@ -49,3 +49,29 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@import "~@/assets/styles/items.scss";
+
+.back-button {
+  position: relative;
+  margin: 1rem 0;
+
+  button {
+    padding: 0.5rem;
+    border-radius: 0.6rem;
+    min-width: 2.5rem;
+    color: #fff;
+    background: #d12754;
+  }
+
+  .checkout-heading {
+    position: absolute;
+    top: 0.5rem;
+    font-size: 1.4rem;
+    right: 0;
+    opacity: 0.3;
+    font-weight: bold;
+  }
+}
+</style>

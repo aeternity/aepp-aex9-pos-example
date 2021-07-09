@@ -2,3 +2,86 @@
   font-family: "Rubik";
   src: url("~@/assets/fonts/Rubik.ttf") format("truetype");
 }
+
+html, body, #app {
+  margin: 0;
+  height: 100vh;
+
+  font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  color: #181818;
+  letter-spacing: 0.03rem;
+}
+
+button {
+  border: none;
+}
+
+#app {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.main {
+  flex: 1;
+  overflow: auto;
+}
+
+.header {
+  .heading-primary {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .heading-secondary {
+    text-align: center;
+    opacity: 0.5;
+  }
+}
+
+.bottom {
+  width: 100%;
+  margin: 0.8rem 0;
+
+  .bottom-divider {
+    opacity: 0.2;
+    border: 1px dashed #181818;
+    margin: 0.8rem 0;
+  }
+
+  .bottom-summary {
+    position: relative;
+    font-weight: bold;
+    margin: 0.8rem 0;
+
+    .bottom-summary-right {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #161616;
+      opacity: 0.5;
+    }
+  }
+
+  .bottom-button {
+    cursor: pointer;
+    background: #161616;
+    color: #fff;
+    padding: 0.8rem;
+    border-radius: 1rem;
+    font-weight: bold;
+    width: 100%;
+
+    &.cancel {
+      color: #161616;
+      background: #fff;
+    }
+  }
+}
