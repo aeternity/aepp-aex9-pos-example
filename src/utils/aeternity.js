@@ -2,11 +2,11 @@ import {Node, Universal, MemoryAccount, Crypto} from '@aeternity/aepp-sdk/es';
 import FUNGIBLE_TOKEN_CONTRACT_INTERFACE from '../assets/contracts/fungible-token-custom-interface.aes';
 import POS_CONTRACT_INTERFACE from '../assets/contracts/pos-contract-interface.aes';
 
-const TESTNET_URL = 'https://testnet.aeternity.io';
+const MAINNET_URL = 'https://mainnet.aeternity.io';
 const COMPILER_URL = 'https://compiler.aepps.com';
 
-const TOKEN_CONTRACT_ADDRESS = 'ct_45FezzKwHQyenzW8SZxFJUKVWtZ4UMgVG4kAbeKcAAqsA91K3';
-const POS_CONTRACT_ADDRESS = 'ct_2ndDv1QzkrgXfr1UJ2pnpjMZpTJDB4GuytH143bjNMTGRbBkL7';
+const TOKEN_CONTRACT_ADDRESS = 'ct_zd74RfkhsRQVuHio1nQgteVNbG7jjFJS2xXkfRSbinzi1f3wX';
+const POS_CONTRACT_ADDRESS = 'ct_sjPScSkz8cggXBFFmYcfU95LRSSuqfj7pVkh1kjyj8xQKTQhr';
 
 const aeternity = {
   client: null,
@@ -32,7 +32,7 @@ aeternity.getPublicKey = () => {
 aeternity.init = async ({publicKey, secretKey}) => {
   aeternity.client = await Universal({
     compilerUrl: COMPILER_URL,
-    nodes: [{name: 'testnet', instance: await Node({url: TESTNET_URL})}],
+    nodes: [{name: 'mainnet', instance: await Node({url: MAINNET_URL})}],
     accounts: [MemoryAccount({keypair: {secretKey, publicKey}})],
   });
   aeternity.token = await aeternity.client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT_INTERFACE, {contractAddress: TOKEN_CONTRACT_ADDRESS})
