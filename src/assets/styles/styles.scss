@@ -35,6 +35,13 @@ button {
   overflow: auto;
   margin-top: 1rem;
   padding-bottom: 1rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .header {
