@@ -15,7 +15,6 @@
       <div class="item-main">
         <div class="item-description">{{ item.description }}</div>
         <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
-        <div class="item-total">€ {{ item.price * pricePerToken * cart.filter(i => i.id === item.id).length }}</div>
       </div>
       <div class="item-buttons">
         <button class="item-remove-button" @click="removeFromCart(item)">-</button>
@@ -29,7 +28,7 @@
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right">
-        € {{ totalPrice }} ({{ totalTokens }} Tokens)
+        {{ totalTokens }} Tokens
       </div>
     </div>
     <button class="bottom-button" @click="changePage('REQUEST_PAYMENT')">
