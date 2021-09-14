@@ -6,23 +6,30 @@ const store = createStore({
   state() {
     return {
       page: 'SETUP',
-      cart: []
+      cart: items.map(item => {
+        item.count = 0
+        return item
+      }),
     }
   },
   mutations: {
     resetStore(state) {
-      state.cart = [];
+      state.cart = items.map(item => {
+        item.count = 0
+        return item
+      })
     },
     addToCart(state, item) {
-      state.cart.push(item);
+      state.cart = state.cart.map(cartItem => {
+        if (cartItem.id === item.id) cartItem.count++
+        return cartItem
+      });
     },
     removeFromCart(state, item) {
-      const thisItems = state.cart.filter(i => i.id === item.id);
-      const otherItems = state.cart.filter(i => i.id !== item.id);
-      thisItems.shift();
-      const cartItems = otherItems.concat(thisItems);
-      if (cartItems.length === 0) state.page = 'SELECT_ITEMS';
-      state.cart = cartItems;
+      state.cart = state.cart.map(cartItem => {
+        if (cartItem.count > 0 && cartItem.id === item.id) cartItem.count--
+        return cartItem
+      });
     },
     changePage(state, page) {
       state.page = page;
@@ -30,18 +37,11 @@ const store = createStore({
   },
 
   getters: {
-    totalPrice(state) {
-      return state.cart.reduce((acc, item) => acc + item.price * config.pricePerToken, 0);
-    },
     totalTokens(state) {
-      return state.cart.reduce((acc, item) => acc + item.price, 0);
+      return state.cart.reduce((acc, item) => acc + item.price  * item.count, 0);
     },
     totalTokenWithoutDecimals(state, getters) {
       return getters.totalTokens * Math.pow(10, config.decimals);
-    },
-    cartItems(state) {
-      const cartIds = state.cart.map(item => item.id);
-      return items.filter(item => cartIds.includes(item.id));
     },
   }
 })

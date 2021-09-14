@@ -25,7 +25,7 @@
        {{ totalTokens }} {{ config.tokenName }}
       </div>
     </div>
-    <button class="bottom-button cancel" @click="qrdata = null; changePage('CHECKOUT')">
+    <button class="bottom-button cancel" @click="qrdata = null; changePage('SELECT_ITEMS')">
       Cancel Request
     </button>
   </div>
@@ -50,7 +50,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['totalPrice', 'totalTokens', 'totalTokenWithoutDecimals']),
+    ...mapGetters(['totalTokens', 'totalTokenWithoutDecimals']),
     config: () => config,
   },
   methods: {
