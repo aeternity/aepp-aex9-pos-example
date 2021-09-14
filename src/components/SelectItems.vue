@@ -1,30 +1,14 @@
 <template>
   <div class="header">
-    <button
-        class="filter-button"
-        :class="filter === 'ALL' ? 'selected' : null"
-        @click="filter = 'ALL'">
-      All
-    </button>
-    <button
-        class="filter-button"
-        :class="filter === 'DRINKS' ? 'selected' : null"
-        @click="filter = 'DRINKS'">
-      🍹 Drinks
-    </button>
-    <button
-        class="filter-button"
-        :class="filter === 'FOOD' ? 'selected' : null"
-        @click="filter = 'FOOD'">
-      🍔 Food
-    </button>
+    <div class="back-button">
+      <div class="checkout-heading">Order Details</div>
+    </div>
   </div>
-  <div class="main">
-    <div class="item-heading">Select Items</div>
 
+  <div class="main">
     <div
         class="item"
-        v-for="item in filteredItems"
+        v-for="item in cart"
         :key="item.id">
       <div class="item-icon"> {{ item.icon }}</div>
       <div class="item-main">
@@ -32,7 +16,8 @@
         <div class="item-price">{{ item.price }} {{ config.tokenName }}</div>
       </div>
       <div class="item-buttons">
-
+        <button class="item-remove-button" @click="removeFromCart(item)">-</button>
+        <div>{{ item.count }}</div>
         <button class="item-add-button" @click="addToCart(item)">+</button>
       </div>
     </div>
@@ -40,64 +25,59 @@
 
   <div class="bottom">
     <div class="bottom-divider"/>
-    <div class="bottom-summary">Items
+    <div class="bottom-summary">Total
       <div class="bottom-summary-right">
-        {{ cart.length }}
+        {{ totalTokens }} {{ config.tokenName }}
       </div>
     </div>
-    <button class="bottom-button" @click="changePage('CHECKOUT')" :disabled="cart.length === 0">
-      🛒 Checkout
+    <button class="bottom-button" @click="changePage('REQUEST_PAYMENT')">
+      💸 Request Payment
     </button>
   </div>
 </template>
 
 <script>
 
-import {mapState, mapMutations} from 'vuex'
-import items from '@/assets/content/items.json';
+import {mapState, mapMutations, mapGetters} from 'vuex'
 import config from "@/assets/content/config.json";
 
 export default {
-  data() {
-    return {
-      filter: 'ALL',
-    };
-  },
   computed: {
     ...mapState(['cart']),
+    ...mapGetters(['totalTokens']),
     config: () => config,
-    filteredItems() {
-      return this.filter === 'ALL' ? items : items.filter(item => item.type === this.filter)
-    },
   },
   methods: {
-    ...mapMutations(['addToCart', 'changePage']),
+    ...mapMutations(['addToCart', 'removeFromCart', 'changePage']),
   }
 }
 </script>
 
 <style lang="scss">
-@use "sass:color";
+@import "~@/assets/styles/items.scss";
 
-.item-heading {
-  color: #181818;
+.back-button {
+  position: relative;
   margin-bottom: 1rem;
-  font-weight: bold;
-}
 
-.filter-button {
-  cursor: pointer;
-  border-radius: 1rem;
-  color: #d12754;
-  background: color.adjust(#d12754, $alpha: -0.9);
-  padding: 0.5rem 0.8rem;
-  margin: 0 0.5rem 1rem 0;
-  min-width: 4rem;
-  outline: none;
-
-  &.selected {
+  button {
+    border-radius: 0.6rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
     color: #fff;
     background: #d12754;
+  }
+
+  .checkout-heading {
+    position: absolute;
+    top: 0.5rem;
+    font-size: 1.4rem;
+    right: 0;
+    opacity: 0.3;
+    font-weight: bold;
   }
 }
 </style>
