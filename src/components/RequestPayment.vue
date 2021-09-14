@@ -49,7 +49,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['totalPrice', 'totalTokens']),
+    ...mapGetters(['totalPrice', 'totalTokens', 'totalTokenWithoutDecimals']),
   },
   methods: {
     ...mapMutations(['changePage']),
@@ -64,8 +64,8 @@ export default {
     },
   },
   async mounted() {
-    this.invoiceId = await aeternity.pos.methods.new_invoice(this.totalTokens, {gasPrice: 1500000000}).then(r => r.decodedResult);
-    this.qrdata = {invoiceId: this.invoiceId, amount: this.totalTokens};
+    this.invoiceId = await aeternity.pos.methods.new_invoice(this.totalTokenWithoutDecimals, {gasPrice: 1500000000}).then(r => r.decodedResult);
+    this.qrdata = {invoiceId: this.invoiceId, amount: this.totalTokenWithoutDecimals};
     this.checkPaidInterval = setInterval(this.checkPaid, 1000);
   },
   beforeUnmount() {

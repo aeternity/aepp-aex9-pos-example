@@ -22,9 +22,10 @@ export default {
   methods: {
     async onDecode(decodedString) {
       this.state = '⌛';
-      const invoiceData = JSON.parse(decodedString);
+      const jsonString = decodedString.replace('ZEITFESTIVAL', '');
+      const invoiceData = JSON.parse(jsonString);
 
-      await aeternity.token.methods.burn_trigger_pos(invoiceData.price, aeternity.posContractAddress, invoiceData.id);
+      await aeternity.token.methods.burn_trigger_pos(invoiceData.amount, aeternity.posContractAddress, invoiceData.invoiceId);
       this.state = '✅';
     }
   },
