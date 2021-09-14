@@ -14,7 +14,7 @@
       <div class="item-icon"> {{ item.icon }}</div>
       <div class="item-main">
         <div class="item-description">{{ item.description }}</div>
-        <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
+        <div class="item-price">{{ item.price }} {{ config.tokenName }}</div>
       </div>
       <div class="item-buttons">
         <button class="item-remove-button" @click="removeFromCart(item)">-</button>
@@ -28,7 +28,7 @@
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right">
-        {{ totalTokens }} Tokens
+        {{ totalTokens }} {{ config.tokenName }}
       </div>
     </div>
     <button class="bottom-button" @click="changePage('REQUEST_PAYMENT')">
@@ -40,11 +40,13 @@
 <script>
 
 import {mapState, mapMutations, mapGetters} from 'vuex'
+import config from "@/assets/content/config.json";
 
 export default {
   computed: {
-    ...mapState(['cart', 'pricePerToken']),
+    ...mapState(['cart']),
     ...mapGetters(['totalPrice', 'totalTokens', 'cartItems']),
+    config: () => config,
   },
   methods: {
     ...mapMutations(['addToCart', 'removeFromCart', 'changePage']),
