@@ -18,9 +18,9 @@ import {mapMutations} from 'vuex'
 
 export default {
   methods: {
-    ...mapMutations(['changePage', 'resetStore']),
+    ...mapMutations(['changePage', 'setRequestTokenAmount']),
     reset() {
-      this.resetStore();
+      this.setRequestTokenAmount(0);
       this.changePage('SELECT_ITEMS');
     }
   }
