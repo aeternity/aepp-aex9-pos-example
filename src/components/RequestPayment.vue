@@ -22,7 +22,7 @@
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right">
-        € {{ totalPrice }} ({{ totalTokens }} Tokens)
+       {{ totalTokens }} Tokens
       </div>
     </div>
     <button class="bottom-button cancel" @click="qrdata = null; changePage('CHECKOUT')">
