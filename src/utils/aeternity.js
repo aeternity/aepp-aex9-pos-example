@@ -5,8 +5,8 @@ import POS_CONTRACT_INTERFACE from '../assets/contracts/pos-contract-interface.a
 const MAINNET_URL = 'https://mainnet.aeternity.io';
 const COMPILER_URL = 'https://compiler.aepps.com';
 
-const TOKEN_CONTRACT_ADDRESS = 'ct_zd74RfkhsRQVuHio1nQgteVNbG7jjFJS2xXkfRSbinzi1f3wX';
-const POS_CONTRACT_ADDRESS = 'ct_sjPScSkz8cggXBFFmYcfU95LRSSuqfj7pVkh1kjyj8xQKTQhr';
+const TOKEN_CONTRACT_ADDRESS = 'ct_2t7TnocFw7oCYSS7g2yGutZMpGEJta6dq2DTX38SmuqmwtN6Ch';
+const POS_CONTRACT_ADDRESS = 'ct_213B8EVmEzuAG9FiqpvSQA4h4D9v8eNKLTYaBaDUVVp9fnY67A';
 
 const aeternity = {
   client: null,

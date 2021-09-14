@@ -5,7 +5,8 @@ const store = createStore({
   state() {
     return {
       page: 'SETUP',
-      pricePerToken: 3,
+      pricePerToken: 1,
+      decimals: 1,
       cart: []
     }
   },
@@ -35,6 +36,9 @@ const store = createStore({
     },
     totalTokens(state) {
       return state.cart.reduce((acc, item) => acc + item.price, 0);
+    },
+    totalTokenWithoutDecimals(state, getters) {
+      return getters.totalTokens * Math.pow(10, state.decimals);
     },
     cartItems(state) {
       const cartIds = state.cart.map(item => item.id);
