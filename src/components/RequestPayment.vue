@@ -22,7 +22,7 @@
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right">
-       {{ totalTokens }} Tokens
+       {{ totalTokens }} {{ config.tokenName }}
       </div>
     </div>
     <button class="bottom-button cancel" @click="qrdata = null; changePage('CHECKOUT')">
@@ -37,6 +37,7 @@ import QrcodeVue from 'qrcode.vue';
 import {mapMutations, mapGetters} from 'vuex'
 import aeternity from "@/utils/aeternity";
 import {clearIntervalVariable} from "@/utils/util";
+import config from "@/assets/content/config.json";
 
 export default {
   components: {
@@ -50,6 +51,7 @@ export default {
   },
   computed: {
     ...mapGetters(['totalPrice', 'totalTokens', 'totalTokenWithoutDecimals']),
+    config: () => config,
   },
   methods: {
     ...mapMutations(['changePage']),

@@ -1,12 +1,11 @@
 import {createStore} from 'vuex'
 import items from "@/assets/content/items.json";
+import config from "@/assets/content/config.json";
 
 const store = createStore({
   state() {
     return {
       page: 'SETUP',
-      pricePerToken: 1,
-      decimals: 1,
       cart: []
     }
   },
@@ -32,13 +31,13 @@ const store = createStore({
 
   getters: {
     totalPrice(state) {
-      return state.cart.reduce((acc, item) => acc + item.price * state.pricePerToken, 0);
+      return state.cart.reduce((acc, item) => acc + item.price * config.pricePerToken, 0);
     },
     totalTokens(state) {
       return state.cart.reduce((acc, item) => acc + item.price, 0);
     },
     totalTokenWithoutDecimals(state, getters) {
-      return getters.totalTokens * Math.pow(10, state.decimals);
+      return getters.totalTokens * Math.pow(10, config.decimals);
     },
     cartItems(state) {
       const cartIds = state.cart.map(item => item.id);

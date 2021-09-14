@@ -29,7 +29,7 @@
       <div class="item-icon"> {{ item.icon }}</div>
       <div class="item-main">
         <div class="item-description">{{ item.description }}</div>
-        <div class="item-price">{{ item.price }} Token{{ item.price > 1 ? 's' : '' }}</div>
+        <div class="item-price">{{ item.price }} {{ config.tokenName }}</div>
       </div>
       <div class="item-buttons">
 
@@ -55,6 +55,7 @@
 
 import {mapState, mapMutations} from 'vuex'
 import items from '@/assets/content/items.json';
+import config from "@/assets/content/config.json";
 
 export default {
   data() {
@@ -64,6 +65,7 @@ export default {
   },
   computed: {
     ...mapState(['cart']),
+    config: () => config,
     filteredItems() {
       return this.filter === 'ALL' ? items : items.filter(item => item.type === this.filter)
     },
