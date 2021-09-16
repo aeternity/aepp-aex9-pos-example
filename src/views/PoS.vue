@@ -1,13 +1,13 @@
 <template>
   <Setup v-if="page === 'SETUP'"/>
   <RequestFunding v-if="page === 'REQUEST_FUNDING'"/>
-  <SelectItems v-if="page === 'SELECT_ITEMS'"/>
+  <AmountInput v-if="page === 'AMOUNT_INPUT'"/>
   <RequestPayment v-if="page === 'REQUEST_PAYMENT'"/>
   <Paid v-if="page === 'PAID'"/>
 </template>
 
 <script>
-import SelectItems from "@/components/SelectItems";
+import AmountInput from "@/components/AmountInput";
 import Setup from "@/components/Setup";
 import {mapMutations, mapState} from "vuex";
 import RequestPayment from "@/components/RequestPayment";
@@ -19,7 +19,7 @@ export default {
   components: {
     Paid,
     RequestPayment,
-    SelectItems,
+    AmountInput,
     Setup,
     RequestFunding,
   },

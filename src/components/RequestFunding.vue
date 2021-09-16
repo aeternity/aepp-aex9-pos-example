@@ -43,7 +43,7 @@ export default {
         const balance = await aeternity.checkBalance().catch(console.error);
         if (balance && balance > 0) {
           clearIntervalVariable(this.checkFundedInterval);
-          this.changePage('SELECT_ITEMS');
+          this.changePage('AMOUNT_INPUT');
         }
       }
     }
@@ -53,7 +53,7 @@ export default {
     const balance = await aeternity.checkBalance();
     console.log(balance)
     if (balance > 0) {
-      this.changePage('SELECT_ITEMS');
+      this.changePage('AMOUNT_INPUT');
     } else {
       this.checkFundedInterval = setInterval(this.checkFunded, 1000);
     }

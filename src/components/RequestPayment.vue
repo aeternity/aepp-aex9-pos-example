@@ -25,7 +25,7 @@
        {{ requestTokenAmount }} {{ config.tokenName }}
       </div>
     </div>
-    <button class="bottom-button cancel" @click="qrdata = null; changePage('SELECT_ITEMS')">
+    <button class="bottom-button cancel" @click="qrdata = null; changePage('AMOUNT_INPUT')">
       Cancel Request
     </button>
   </div>

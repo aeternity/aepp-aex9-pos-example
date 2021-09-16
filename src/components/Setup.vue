@@ -42,7 +42,7 @@ export default {
     const balance = await aeternity.checkBalance().catch(console.error);
 
     if (balance && balance > 0) {
-      this.changePage('SELECT_ITEMS')
+      this.changePage('AMOUNT_INPUT')
     } else {
       this.changePage('REQUEST_FUNDING')
     }
