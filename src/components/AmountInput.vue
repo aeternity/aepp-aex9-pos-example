@@ -7,7 +7,7 @@
 
   <div class="main">
     <div class="amount-input">
-      <input v-model="tokenAmount" type="number" min="0" step="0.1" v-on:keyup.enter="changePage('REQUEST_PAYMENT')" /> {{ config.tokenName }}
+      <input v-model="tokenAmount" type="number" min="0" step="0.1" v-on:keyup.enter="nextPage()" /> {{ config.tokenName }}
     </div>
   </div>
 
@@ -18,7 +18,7 @@
         {{ requestTokenAmount }} {{ config.tokenName }}
       </div>
     </div>
-    <button class="bottom-button" @click="changePage('REQUEST_PAYMENT')" :disabled="!inputValid">
+    <button class="bottom-button" @click="nextPage()" :disabled="!inputValid">
       💸 Request Payment
     </button>
   </div>
@@ -50,7 +50,7 @@ export default {
     config: () => config,
   },
   methods: {
-    ...mapMutations(['setRequestTokenAmount', 'changePage']),
+    ...mapMutations(['setRequestTokenAmount', 'nextPage']),
   }
 }
 </script>

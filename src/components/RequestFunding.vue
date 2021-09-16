@@ -37,13 +37,13 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['changePage']),
+    ...mapMutations(['nextPage']),
     async checkFunded() {
       if (this.publicKey !== null) {
         const balance = await aeternity.checkBalance().catch(console.error);
         if (balance && balance > 0) {
           clearIntervalVariable(this.checkFundedInterval);
-          this.changePage('AMOUNT_INPUT');
+          this.nextPage();
         }
       }
     }
@@ -53,7 +53,7 @@ export default {
     const balance = await aeternity.checkBalance();
     console.log(balance)
     if (balance > 0) {
-      this.changePage('AMOUNT_INPUT');
+      this.nextPage();
     } else {
       this.checkFundedInterval = setInterval(this.checkFunded, 1000);
     }

@@ -6,8 +6,20 @@
   </div>
 
   <div class="main">
-    <div class="amount-input">
-      <input v-model="tokenAmount" type="number" min="0" step="0.1" v-on:keyup.enter="changePage('REQUEST_PAYMENT')" /> {{ config.tokenName }}
+    <div
+        class="item"
+        v-for="item in cart"
+        :key="item.id">
+      <div class="item-icon"> {{ item.icon }}</div>
+      <div class="item-main">
+        <div class="item-description">{{ item.description }}</div>
+        <div class="item-price">{{ item.price }} {{ config.tokenName }}</div>
+      </div>
+      <div class="item-buttons">
+        <button class="item-remove-button" @click="removeFromCart(item)">-</button>
+        <div>{{ item.count }}</div>
+        <button class="item-add-button" @click="addToCart(item)">+</button>
+      </div>
     </div>
   </div>
 
@@ -15,10 +27,10 @@
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right">
-        {{ requestTokenAmount }} {{ config.tokenName }}
+        {{ totalTokens }} {{ config.tokenName }}
       </div>
     </div>
-    <button class="bottom-button" @click="changePage('REQUEST_PAYMENT')" :disabled="!inputValid">
+    <button class="bottom-button" @click="nextPage()">
       💸 Request Payment
     </button>
   </div>
@@ -26,52 +38,23 @@
 
 <script>
 
-import {mapState, mapMutations} from 'vuex'
+import {mapState, mapMutations, mapGetters} from 'vuex'
 import config from "@/assets/content/config.json";
 
 export default {
-  data() {
-    return {
-      inputValid: true,
-    };
-  },
   computed: {
-    ...mapState(['requestTokenAmount']),
-    tokenAmount: {
-      get() {
-        return this.requestTokenAmount;
-      },
-      set(value) {
-        this.setRequestTokenAmount(0) // stupid hack to force update for getter to update again
-        const roundedAmount = Math.round(parseFloat(value) * Math.pow(10, config.decimals)) / Math.pow(10, config.decimals)
-        this.setRequestTokenAmount(roundedAmount || 0)
-      }
-    },
+    ...mapState(['cart']),
+    ...mapGetters(['totalTokens']),
     config: () => config,
   },
   methods: {
-    ...mapMutations(['setRequestTokenAmount', 'changePage']),
+    ...mapMutations(['addToCart', 'removeFromCart', 'nextPage']),
   }
 }
 </script>
 
 <style lang="scss">
-@use "sass:color";
 @import "~@/assets/styles/items.scss";
-
-.amount-input {
-  input {
-    border: 3px solid color.adjust(#161616, $alpha: -0.5);
-    padding: 1rem;
-    border-radius: 1rem;
-    width: 6rem;
-    font-size: 2.5rem;
-  }
-
-  font-size: 2rem;
-  margin: 4rem auto 6rem auto;
-  text-align: center;
-}
 
 .back-button {
   position: relative;

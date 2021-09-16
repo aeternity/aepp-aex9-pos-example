@@ -13,6 +13,7 @@
 
 import {mapMutations} from 'vuex'
 import aeternity from "@/utils/aeternity";
+import {REQUEST_FUNDING} from "@/utils/pages";
 
 export default {
   data() {
@@ -21,7 +22,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['changePage']),
+    ...mapMutations(['nextPage']),
   },
   async mounted() {
     const keypairString = localStorage.getItem('keypair');
@@ -42,9 +43,9 @@ export default {
     const balance = await aeternity.checkBalance().catch(console.error);
 
     if (balance && balance > 0) {
-      this.changePage('AMOUNT_INPUT')
+      this.nextPage()
     } else {
-      this.changePage('REQUEST_FUNDING')
+      this.nextPage(REQUEST_FUNDING)
     }
   }
 }
