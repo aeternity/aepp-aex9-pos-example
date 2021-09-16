@@ -43,7 +43,7 @@ export default {
       },
       set(value) {
         this.setRequestTokenAmount(0) // stupid hack to force update for getter to update again
-        const roundedAmount = Math.round(parseFloat(value) * 10) / 10
+        const roundedAmount = Math.round(parseFloat(value) * Math.pow(10, config.decimals)) / Math.pow(10, config.decimals)
         this.setRequestTokenAmount(roundedAmount || 0)
       }
     },
