@@ -18,10 +18,10 @@ import {mapMutations} from 'vuex'
 
 export default {
   methods: {
-    ...mapMutations(['changePage', 'setRequestTokenAmount']),
+    ...mapMutations(['nextPage', 'resetStore']),
     reset() {
-      this.setRequestTokenAmount(0);
-      this.changePage('AMOUNT_INPUT');
+      this.resetStore();
+      this.nextPage();
     }
   }
 }

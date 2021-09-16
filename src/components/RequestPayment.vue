@@ -22,10 +22,10 @@
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right">
-       {{ requestTokenAmount }} {{ config.tokenName }}
+       {{ totalTokens }} {{ config.tokenName }}
       </div>
     </div>
-    <button class="bottom-button cancel" @click="qrdata = null; changePage('AMOUNT_INPUT')">
+    <button class="bottom-button cancel" @click="qrdata = null; previousPage()">
       Cancel Request
     </button>
   </div>
@@ -34,7 +34,7 @@
 <script>
 
 import QrcodeVue from 'qrcode.vue';
-import {mapMutations, mapGetters, mapState} from 'vuex'
+import {mapMutations, mapGetters} from 'vuex'
 import aeternity from "@/utils/aeternity";
 import {clearIntervalVariable} from "@/utils/util";
 import config from "@/assets/content/config.json";
@@ -50,18 +50,17 @@ export default {
     };
   },
   computed: {
-    ...mapState(['requestTokenAmount']),
-    ...mapGetters(['totalTokenWithoutDecimals']),
+    ...mapGetters(['totalTokens', 'totalTokenWithoutDecimals']),
     config: () => config,
   },
   methods: {
-    ...mapMutations(['changePage']),
+    ...mapMutations(['nextPage', 'previousPage']),
     async checkPaid() {
       if (this.qrdata !== null) {
         const hasPaid = await aeternity.pos.methods.has_paid(this.invoiceId).then(r => r.decodedResult).catch(console.error);
         if (hasPaid) {
           clearIntervalVariable(this.checkPaidInterval)
-          this.changePage('PAID')
+          this.nextPage()
         }
       }
     },
