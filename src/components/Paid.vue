@@ -21,7 +21,7 @@ export default {
     ...mapMutations(['changePage', 'setRequestTokenAmount']),
     reset() {
       this.setRequestTokenAmount(0);
-      this.changePage('SELECT_ITEMS');
+      this.changePage('AMOUNT_INPUT');
     }
   }
 }
