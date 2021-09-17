@@ -1,14 +1,15 @@
 import {createStore} from 'vuex'
 import items from "@/assets/content/items.json";
 import config from "@/assets/content/config.json";
-import {nextPageFromCurrent, previousPageFromCurrent} from "@/utils/pages";
+import {nextPageFromCurrent, previousPageFromCurrent, SELECT_ITEMS_CART} from "@/utils/pages";
 
 const store = createStore({
   state() {
     return {
       page: null,
       requestTokenAmount: 0,
-      cart: items.map(item => {
+      cart: [],
+      selectedItems: items.map(item => {
         item.count = 0
         return item
       }),
@@ -20,19 +21,20 @@ const store = createStore({
     },
     resetStore(state) {
       state.requestTokenAmount = 0
-      state.cart = items.map(item => {
+      state.selectedItems = items.map(item => {
         item.count = 0
         return item
       })
+      state.cart = []
     },
-    addToCart(state, item) {
-      state.cart = state.cart.map(cartItem => {
+    addSelectedItem(state, item) {
+      state.selectedItems = state.selectedItems.map(cartItem => {
         if (cartItem.id === item.id) cartItem.count++
         return cartItem
       });
     },
-    removeFromCart(state, item) {
-      state.cart = state.cart.map(cartItem => {
+    removeSelectedItem(state, item) {
+      state.selectedItems = state.selectedItems.map(cartItem => {
         if (cartItem.count > 0 && cartItem.id === item.id) cartItem.count--
         return cartItem
       });
@@ -42,14 +44,35 @@ const store = createStore({
     },
     previousPage(state) {
       state.page = previousPageFromCurrent(state.page)
-    }
+    },
+    removeFromCart(state, item) {
+      const thisItems = state.cart.filter(i => i.id === item.id);
+      const otherItems = state.cart.filter(i => i.id !== item.id);
+      thisItems.shift();
+      const cartItems = otherItems.concat(thisItems);
+      if (cartItems.length === 0) state.page = SELECT_ITEMS_CART;
+      state.cart = cartItems;
+    },
+
+    addToCart(state, item) {
+      state.cart.push(item);
+    },
   },
   getters: {
     totalTokens(state) {
-      return state.requestTokenAmount || state.cart.reduce((acc, item) => acc + item.price  * item.count, 0)
+      return state.requestTokenAmount +
+        state.selectedItems.reduce((acc, item) => acc + item.price  * item.count, 0) +
+        state.cart.reduce((acc, item) => acc + item.price, 0)
+    },
+    totalPrice(state, getters) {
+      return getters.totalTokens * config.pricePerToken
     },
     totalTokenWithoutDecimals(state, getters) {
       return getters.totalTokens * Math.pow(10, config.decimals)
+    },
+    cartItems(state) {
+      const cartIds = state.cart.map(item => item.id);
+      return items.filter(item => cartIds.includes(item.id));
     },
   }
 })
