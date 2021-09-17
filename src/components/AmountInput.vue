@@ -7,7 +7,7 @@
 
   <div class="main">
     <div class="amount-input">
-      <input v-model="tokenAmount" type="number" min="0" step="0.1" v-on:keyup.enter="nextPage()" /> {{ config.tokenName }}
+      <input v-model="tokenAmount" type="number" min="0" step="0.1" v-on:keyup.enter="nextPage()" /> {{ tokenInfo.symbol }}
     </div>
   </div>
 
@@ -15,10 +15,10 @@
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right" v-if="config.showFiat">
-        € {{ totalPrice }} ({{ totalTokens }} {{ config.tokenName }})
+        € {{ totalPrice }} ({{ totalTokens }} {{ tokenInfo.symbol }})
       </div>
       <div class="bottom-summary-right" v-else>
-        {{ totalTokens }} {{ config.tokenName }}
+        {{ totalTokens }} {{ tokenInfo.symbol }}
       </div>
     </div>
     <button class="bottom-button" @click="nextPage()" :disabled="!inputValid">
@@ -39,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['requestTokenAmount']),
+    ...mapState(['requestTokenAmount', 'tokenInfo']),
     ...mapGetters(['totalTokens', 'totalPrice']),
     tokenAmount: {
       get() {
@@ -47,7 +47,7 @@ export default {
       },
       set(value) {
         this.setRequestTokenAmount(0) // stupid hack to force update for getter to update again
-        const roundedAmount = Math.round(parseFloat(value) * Math.pow(10, config.decimals)) / Math.pow(10, config.decimals)
+        const roundedAmount = Math.round(parseFloat(value) * Math.pow(10, this.tokenInfo.decimals)) / Math.pow(10, this.tokenInfo.decimals)
         this.setRequestTokenAmount(roundedAmount || 0)
       }
     },

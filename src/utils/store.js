@@ -6,6 +6,7 @@ import {nextPageFromCurrent, previousPageFromCurrent, SELECT_ITEMS_CART} from "@
 const store = createStore({
   state() {
     return {
+      tokenInfo: {decimals: 0, name: 'Token', symbol: 'TOKEN'},
       page: null,
       requestTokenAmount: 0,
       cart: [],
@@ -39,6 +40,9 @@ const store = createStore({
         return cartItem
       });
     },
+    setTokenInfo(state, tokenInfo) {
+      state.tokenInfo = tokenInfo
+    },
     nextPage(state, page) {
       state.page = page || nextPageFromCurrent(state.page)
     },
@@ -68,7 +72,7 @@ const store = createStore({
       return getters.totalTokens * config.pricePerToken
     },
     totalTokenWithoutDecimals(state, getters) {
-      return getters.totalTokens * Math.pow(10, config.decimals)
+      return getters.totalTokens * Math.pow(10, state.tokenInfo.decimals)
     },
     cartItems(state) {
       const cartIds = state.cart.map(item => item.id);
