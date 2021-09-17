@@ -1,7 +1,5 @@
 {
-    "tokenName": "HEDONE",
     "pricePerToken": 1,
-    "decimals": 1,
     "tokenContractAddress": "ct_2t7TnocFw7oCYSS7g2yGutZMpGEJta6dq2DTX38SmuqmwtN6Ch",
     "posContractAddress": "ct_213B8EVmEzuAG9FiqpvSQA4h4D9v8eNKLTYaBaDUVVp9fnY67A",
     "mode": "AMOUNT",

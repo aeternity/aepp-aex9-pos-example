@@ -13,7 +13,8 @@
       <div class="item-icon"> {{ item.icon }}</div>
       <div class="item-main">
         <div class="item-description">{{ item.description }}</div>
-        <div class="item-price">{{ item.price }} {{ config.tokenName }}</div>
+        <div class="item-price">{{ item.price }} {{ tokenInfo.symbol }}</div>
+        <div class="item-total" v-if="config.showFiat">€ {{ item.price * config.pricePerToken }}</div>
       </div>
       <div class="item-buttons">
         <button class="item-remove-button" @click="removeSelectedItem(item)">-</button>
@@ -27,10 +28,10 @@
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right" v-if="config.showFiat">
-        € {{ totalPrice }} ({{ totalTokens }} {{ config.tokenName }})
+        € {{ totalPrice }} ({{ totalTokens }} {{ tokenInfo.symbol }})
       </div>
       <div class="bottom-summary-right" v-else>
-        {{ totalTokens }} {{ config.tokenName }}
+        {{ totalTokens }} {{ tokenInfo.symbol }}
       </div>
     </div>
     <button class="bottom-button" @click="nextPage()">
@@ -46,7 +47,7 @@ import config from "@/assets/content/config.json";
 
 export default {
   computed: {
-    ...mapState(['selectedItems']),
+    ...mapState(['selectedItems', 'tokenInfo']),
     ...mapGetters(['totalTokens', 'totalPrice']),
     config: () => config,
   },

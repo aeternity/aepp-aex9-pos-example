@@ -29,7 +29,8 @@
       <div class="item-icon"> {{ item.icon }}</div>
       <div class="item-main">
         <div class="item-description">{{ item.description }}</div>
-        <div class="item-price">{{ item.price }} {{ config.tokenName }}</div>
+        <div class="item-price">{{ item.price }} {{ tokenInfo.symbol }}</div>
+        <div class="item-total" v-if="config.showFiat">€ {{ item.price * config.pricePerToken }}</div>
       </div>
       <div class="item-buttons">
         <button class="item-add-button" @click="addToCart(item)">+</button>
@@ -63,7 +64,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['cart']),
+    ...mapState(['cart', 'tokenInfo']),
     config: () => config,
     filteredItems() {
       return this.filter === 'ALL' ? items : items.filter(item => item.type === this.filter)

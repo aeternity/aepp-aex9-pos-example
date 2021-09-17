@@ -11,9 +11,9 @@
 
 <script>
 
-import {mapMutations} from 'vuex'
-import aeternity from "@/utils/aeternity";
-import {REQUEST_FUNDING} from "@/utils/pages";
+import {mapMutations, mapState} from 'vuex'
+import aeternity from "@/utils/aeternity"
+import {REQUEST_FUNDING} from "@/utils/pages"
 
 export default {
   data() {
@@ -22,25 +22,31 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['nextPage']),
+    ...mapMutations(['nextPage', 'setTokenInfo']),
+  },
+  computed: {
+    ...mapState(['tokenInfo']),
   },
   async mounted() {
-    const keypairString = localStorage.getItem('keypair');
-    let keypair = null;
+    const keypairString = localStorage.getItem('keypair')
+    let keypair = null
 
     try {
-      keypair = JSON.parse(keypairString);
+      keypair = JSON.parse(keypairString)
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
 
     if (!keypair) {
       keypair = aeternity.generateAccount()
-      localStorage.setItem('keypair', JSON.stringify(keypair));
+      localStorage.setItem('keypair', JSON.stringify(keypair))
     }
 
-    await aeternity.init(keypair);
-    const balance = await aeternity.checkBalance().catch(console.error);
+    await aeternity.init(keypair)
+    this.setTokenInfo(await aeternity.getTokenMetaInfo())
+    const balance = await aeternity.checkBalance().catch(console.error)
+
+    document.title = `${this.tokenInfo.name}Pay | mPOS`
 
     if (balance && balance > 0) {
       this.nextPage()
