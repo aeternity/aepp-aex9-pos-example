@@ -6,10 +6,19 @@ export const REQUEST_FUNDING = 'REQUEST_FUNDING'
 export const REQUEST_PAYMENT = 'REQUEST_PAYMENT'
 export const AMOUNT_INPUT = 'AMOUNT_INPUT'
 export const PAID = 'PAID'
+export const SELECT_ITEMS_CART = 'SELECT_ITEMS_CART'
+export const CART = 'CART'
 
 
 function startpageForMode() {
-  return config.mode === 'AMOUNT' ? AMOUNT_INPUT : SELECT_ITEMS
+  switch (config.mode) {
+    case 'AMOUNT':
+      return AMOUNT_INPUT
+    case 'ITEMS':
+      return SELECT_ITEMS
+    case 'CART':
+      return SELECT_ITEMS_CART
+  }
 }
 
 export function nextPageFromCurrent(currentPage) {
@@ -26,6 +35,10 @@ export function nextPageFromCurrent(currentPage) {
       return REQUEST_PAYMENT
     case AMOUNT_INPUT:
       return REQUEST_PAYMENT
+    case SELECT_ITEMS_CART:
+      return CART
+    case CART:
+      return REQUEST_PAYMENT
     default:
       return SETUP
   }
@@ -35,5 +48,7 @@ export function previousPageFromCurrent(currentPage) {
   switch (currentPage) {
     case REQUEST_PAYMENT:
       return config.mode === 'AMOUNT' ? AMOUNT_INPUT : SELECT_ITEMS
+    case CART:
+      return SELECT_ITEMS_CART
   }
 }

@@ -8,7 +8,7 @@
   <div class="main">
     <div
         class="item"
-        v-for="item in cart"
+        v-for="item in selectedItems"
         :key="item.id">
       <div class="item-icon"> {{ item.icon }}</div>
       <div class="item-main">
@@ -16,9 +16,9 @@
         <div class="item-price">{{ item.price }} {{ config.tokenName }}</div>
       </div>
       <div class="item-buttons">
-        <button class="item-remove-button" @click="removeFromCart(item)">-</button>
+        <button class="item-remove-button" @click="removeSelectedItem(item)">-</button>
         <div>{{ item.count }}</div>
-        <button class="item-add-button" @click="addToCart(item)">+</button>
+        <button class="item-add-button" @click="addSelectedItem(item)">+</button>
       </div>
     </div>
   </div>
@@ -26,7 +26,10 @@
   <div class="bottom">
     <div class="bottom-divider"/>
     <div class="bottom-summary">Total
-      <div class="bottom-summary-right">
+      <div class="bottom-summary-right" v-if="config.showFiat">
+        € {{ totalPrice }} ({{ totalTokens }} {{ config.tokenName }})
+      </div>
+      <div class="bottom-summary-right" v-else>
         {{ totalTokens }} {{ config.tokenName }}
       </div>
     </div>
@@ -43,12 +46,12 @@ import config from "@/assets/content/config.json";
 
 export default {
   computed: {
-    ...mapState(['cart']),
-    ...mapGetters(['totalTokens']),
+    ...mapState(['selectedItems']),
+    ...mapGetters(['totalTokens', 'totalPrice']),
     config: () => config,
   },
   methods: {
-    ...mapMutations(['addToCart', 'removeFromCart', 'nextPage']),
+    ...mapMutations(['addSelectedItem', 'removeSelectedItem', 'nextPage']),
   }
 }
 </script>
