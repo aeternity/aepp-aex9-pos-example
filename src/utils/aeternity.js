@@ -12,6 +12,7 @@ const aeternity = {
   pos: null,
   ready: false,
   posContractAddress: config.posContractAddress,
+  tokenContractAddress: config.tokenContractAddress,
 };
 
 aeternity.generateAccount = () => {
