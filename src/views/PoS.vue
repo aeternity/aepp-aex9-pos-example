@@ -7,6 +7,7 @@
   <SelectItems v-if="page === 'SELECT_ITEMS'"/>
   <RequestPayment v-if="page === 'REQUEST_PAYMENT'"/>
   <Paid v-if="page === 'PAID'"/>
+  <Configuration v-if="page === 'CONFIGURATION'"/>
 </template>
 
 <script>
@@ -19,10 +20,12 @@ import RequestFunding from "@/components/RequestFunding";
 import AmountInput from "@/components/AmountInput";
 import Cart from "@/components/Cart";
 import SelectItemsCart from "@/components/SelectItemsCart";
+import Configuration from "@/components/Configuration";
 
 export default {
   name: 'PoS',
   components: {
+    Configuration,
     Paid,
     RequestPayment,
     SelectItems,

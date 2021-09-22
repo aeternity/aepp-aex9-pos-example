@@ -25,7 +25,7 @@
        {{ totalTokens }} {{ tokenInfo.symbol }}
       </div>
     </div>
-    <button class="bottom-button cancel" @click="qrdata = null; previousPage()">
+    <button class="full-width-button cancel" @click="qrdata = null; previousPage()">
       Cancel Request
     </button>
   </div>
@@ -37,7 +37,6 @@ import QrcodeVue from 'qrcode.vue';
 import {mapMutations, mapGetters, mapState} from 'vuex'
 import aeternity from "@/utils/aeternity";
 import {clearIntervalVariable} from "@/utils/util";
-import config from "@/assets/content/config.json";
 
 export default {
   components: {
@@ -51,8 +50,7 @@ export default {
   },
   computed: {
     ...mapGetters(['totalTokens', 'totalTokenWithoutDecimals']),
-    ...mapState(['tokenInfo']),
-    config: () => config,
+    ...mapState(['tokenInfo', 'config']),
   },
   methods: {
     ...mapMutations(['nextPage', 'previousPage']),

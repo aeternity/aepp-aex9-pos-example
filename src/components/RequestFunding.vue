@@ -6,13 +6,13 @@
 
   <div class="main">
     <div class="qr-container"
-         :class="publicKey ? 'has-qr': null">
+         :class="keypair !== null ? 'has-qr': null">
       <div
-          v-if="publicKey === null"
+          v-if="keypair === null"
           class="spinner"/>
       <qrcode-vue
-          v-if="publicKey"
-          :value="publicKey"
+          v-if="keypair !== null"
+          :value="keypair.publicKey"
           :size="200"/>
 
     </div>
@@ -21,7 +21,7 @@
 
 <script>
 
-import {mapMutations} from 'vuex'
+import {mapMutations, mapState} from 'vuex'
 import aeternity from "@/utils/aeternity";
 import {clearIntervalVariable} from "@/utils/util";
 import QrcodeVue from "qrcode.vue";
@@ -32,14 +32,16 @@ export default {
   },
   data() {
     return {
-      publicKey: null,
       checkFundedInterval: null,
     };
+  },
+  computed: {
+    ...mapState(['keypair']),
   },
   methods: {
     ...mapMutations(['nextPage']),
     async checkFunded() {
-      if (this.publicKey !== null) {
+      if (this.keypair !== null) {
         const balance = await aeternity.checkBalance().catch(console.error);
         if (balance && balance > 0) {
           clearIntervalVariable(this.checkFundedInterval);
@@ -49,7 +51,6 @@ export default {
     }
   },
   async mounted() {
-    this.publicKey = await aeternity.getPublicKey();
     const balance = await aeternity.checkBalance();
     console.log(balance)
     if (balance > 0) {

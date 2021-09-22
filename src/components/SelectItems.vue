@@ -34,7 +34,7 @@
         {{ totalTokens }} {{ tokenInfo.symbol }}
       </div>
     </div>
-    <button class="bottom-button" @click="nextPage()">
+    <button class="full-width-button" @click="nextPage()">
       💸 Request Payment
     </button>
   </div>
@@ -43,13 +43,11 @@
 <script>
 
 import {mapState, mapMutations, mapGetters} from 'vuex'
-import config from "@/assets/content/config.json";
 
 export default {
   computed: {
-    ...mapState(['selectedItems', 'tokenInfo']),
+    ...mapState(['selectedItems', 'tokenInfo', 'config']),
     ...mapGetters(['totalTokens', 'totalPrice']),
-    config: () => config,
   },
   methods: {
     ...mapMutations(['addSelectedItem', 'removeSelectedItem', 'nextPage']),

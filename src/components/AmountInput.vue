@@ -7,7 +7,7 @@
 
   <div class="main">
     <div class="amount-input">
-      <input v-model="tokenAmount" type="number" min="0" step="0.1" v-on:keyup.enter="nextPage()" /> {{ tokenInfo.symbol }}
+      <input v-model="tokenAmount" type="number" min="0" :step="1 / decimalsPower" v-on:keyup.enter="nextPage()" /> {{ tokenInfo.symbol }}
     </div>
   </div>
 
@@ -21,7 +21,7 @@
         {{ totalTokens }} {{ tokenInfo.symbol }}
       </div>
     </div>
-    <button class="bottom-button" @click="nextPage()" :disabled="!inputValid">
+    <button class="full-width-button" @click="nextPage()" :disabled="!inputValid">
       💸 Request Payment
     </button>
   </div>
@@ -30,7 +30,6 @@
 <script>
 
 import {mapState, mapMutations, mapGetters} from 'vuex'
-import config from "@/assets/content/config.json";
 
 export default {
   data() {
@@ -39,19 +38,19 @@ export default {
     };
   },
   computed: {
-    ...mapState(['requestTokenAmount', 'tokenInfo']),
-    ...mapGetters(['totalTokens', 'totalPrice']),
+    ...mapState(['requestTokenAmount', 'tokenInfo', 'config']),
+    ...mapGetters(['totalTokens', 'totalPrice', 'decimalsPower']),
     tokenAmount: {
       get() {
         return this.requestTokenAmount;
       },
       set(value) {
         this.setRequestTokenAmount(0) // stupid hack to force update for getter to update again
-        const roundedAmount = Math.round(parseFloat(value) * Math.pow(10, this.tokenInfo.decimals)) / Math.pow(10, this.tokenInfo.decimals)
+        this.setRequestTokenAmount(1) // stupid hack to force update for getter to update again
+        const roundedAmount = Math.floor(parseFloat(value) * this.decimalsPower  / this.decimalsPower)
         this.setRequestTokenAmount(roundedAmount || 0)
       }
     },
-    config: () => config,
   },
   methods: {
     ...mapMutations(['setRequestTokenAmount', 'nextPage']),

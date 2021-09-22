@@ -22,31 +22,18 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['nextPage', 'setTokenInfo']),
+    ...mapMutations(['nextPage', 'setTokenInfo', 'setKeypair']),
   },
   computed: {
-    ...mapState(['tokenInfo']),
+    ...mapState(['tokenInfo', 'keypair']),
   },
   async mounted() {
-    const keypairString = localStorage.getItem('keypair')
-    let keypair = null
-
-    try {
-      keypair = JSON.parse(keypairString)
-    } catch (e) {
-      console.error(e)
+    if (this.keypair === null) {
+      this.setKeypair(aeternity.generateAccount())
     }
 
-    if (!keypair) {
-      keypair = aeternity.generateAccount()
-      localStorage.setItem('keypair', JSON.stringify(keypair))
-    }
-
-    await aeternity.init(keypair)
-    this.setTokenInfo(await aeternity.getTokenMetaInfo())
+    await aeternity.init(this.keypair)
     const balance = await aeternity.checkBalance().catch(console.error)
-
-    document.title = `${this.tokenInfo.name}Pay | mPOS`
 
     if (balance && balance > 0) {
       this.nextPage()

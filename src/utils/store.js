@@ -1,11 +1,17 @@
 import {createStore} from 'vuex'
 import items from "@/assets/content/items.json";
-import config from "@/assets/content/config.json";
 import {nextPageFromCurrent, previousPageFromCurrent, SELECT_ITEMS_CART} from "@/utils/pages";
+import VuexPersistence from 'vuex-persist';
 
 const store = createStore({
+  plugins: [new VuexPersistence({
+    storage: window.localStorage,
+    reducer: (state) => ({config: state.config, keypair: state.keypair}),
+  }).plugin],
   state() {
     return {
+      config: null,
+      keypair: null,
       tokenInfo: {decimals: 0, name: 'Token', symbol: 'TOKEN'},
       page: null,
       requestTokenAmount: 0,
@@ -17,6 +23,15 @@ const store = createStore({
     }
   },
   mutations: {
+    setKeypair(state, keypair) {
+      state.keypair = keypair
+    },
+    setConfig(state, config) {
+      state.config = config
+    },
+    resetConfig(state) {
+      state.config = null
+    },
     setRequestTokenAmount(state, amount) {
       state.requestTokenAmount = amount
     },
@@ -44,10 +59,10 @@ const store = createStore({
       state.tokenInfo = tokenInfo
     },
     nextPage(state, page) {
-      state.page = page || nextPageFromCurrent(state.page)
+      state.page = page || nextPageFromCurrent(state.config.mode, state.page)
     },
     previousPage(state) {
-      state.page = previousPageFromCurrent(state.page)
+      state.page = previousPageFromCurrent(state.config.mode, state.page)
     },
     removeFromCart(state, item) {
       const thisItems = state.cart.filter(i => i.id === item.id);
@@ -65,11 +80,11 @@ const store = createStore({
   getters: {
     totalTokens(state) {
       return state.requestTokenAmount +
-        state.selectedItems.reduce((acc, item) => acc + item.price  * item.count, 0) +
+        state.selectedItems.reduce((acc, item) => acc + item.price * item.count, 0) +
         state.cart.reduce((acc, item) => acc + item.price, 0)
     },
     totalPrice(state, getters) {
-      return getters.totalTokens * config.pricePerToken
+      return getters.totalTokens * state.config.pricePerToken
     },
     totalTokenWithoutDecimals(state, getters) {
       return getters.totalTokens * Math.pow(10, state.tokenInfo.decimals)
@@ -78,6 +93,9 @@ const store = createStore({
       const cartIds = state.cart.map(item => item.id);
       return items.filter(item => cartIds.includes(item.id));
     },
+    decimalsPower(state) {
+      return Math.pow(10, state.tokenInfo.decimals)
+    }
   }
 })
 

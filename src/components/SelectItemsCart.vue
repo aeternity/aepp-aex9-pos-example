@@ -45,7 +45,7 @@
         {{ cart.length }}
       </div>
     </div>
-    <button class="bottom-button" @click="nextPage()" :disabled="cart.length === 0">
+    <button class="full-width-button" @click="nextPage()" :disabled="cart.length === 0">
       🛒 Checkout
     </button>
   </div>
@@ -55,7 +55,6 @@
 
 import {mapState, mapMutations} from 'vuex'
 import items from '@/assets/content/items.json';
-import config from "@/assets/content/config.json";
 
 export default {
   data() {
@@ -64,8 +63,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['cart', 'tokenInfo']),
-    config: () => config,
+    ...mapState(['cart', 'tokenInfo', 'config']),
     filteredItems() {
       return this.filter === 'ALL' ? items : items.filter(item => item.type === this.filter)
     },

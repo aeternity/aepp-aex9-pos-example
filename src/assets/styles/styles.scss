@@ -85,23 +85,27 @@ button {
       opacity: 0.5;
     }
   }
+}
 
-  .bottom-button {
-    cursor: pointer;
-    background: #161616;
-    color: #fff;
-    padding: 0.8rem;
-    border-radius: 1rem;
-    font-weight: bold;
-    width: 100%;
+.full-width-button {
+  cursor: pointer;
+  background: #161616;
+  color: #fff;
+  padding: 0.8rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  width: 100%;
 
-    &:disabled {
-      opacity: 0.5;
-    }
+  &:disabled {
+    opacity: 0.5;
+  }
 
-    &.cancel {
-      color: #161616;
-      background: #fff;
-    }
+  &.secondary {
+    background: color.adjust(#161616, $alpha: -0.3);
+  }
+
+  &.cancel {
+    color: #161616;
+    background: #fff;
   }
 }
