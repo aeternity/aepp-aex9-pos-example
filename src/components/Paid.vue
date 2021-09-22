@@ -6,7 +6,7 @@
     <div class="success-container">✅</div>
   </div>
   <div class="bottom">
-    <button class="bottom-button" @click="reset()">
+    <button class="full-width-button" @click="reset()">
       Continue
     </button>
   </div>

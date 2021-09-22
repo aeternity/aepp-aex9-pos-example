@@ -1,5 +1,3 @@
-import config from "@/assets/content/config.json"
-
 export const SETUP = 'SETUP'
 export const SELECT_ITEMS = 'SELECT_ITEMS'
 export const REQUEST_FUNDING = 'REQUEST_FUNDING'
@@ -8,10 +6,10 @@ export const AMOUNT_INPUT = 'AMOUNT_INPUT'
 export const PAID = 'PAID'
 export const SELECT_ITEMS_CART = 'SELECT_ITEMS_CART'
 export const CART = 'CART'
+export const CONFIGURATION = 'CONFIGURATION'
 
-
-function startpageForMode() {
-  switch (config.mode) {
+function startpageForMode(mode) {
+  switch (mode) {
     case 'AMOUNT':
       return AMOUNT_INPUT
     case 'ITEMS':
@@ -21,14 +19,16 @@ function startpageForMode() {
   }
 }
 
-export function nextPageFromCurrent(currentPage) {
+export function nextPageFromCurrent(mode, currentPage) {
   switch (currentPage) {
     case SETUP:
-      return startpageForMode()
+      return CONFIGURATION
+    case CONFIGURATION:
+      return startpageForMode(mode)
     case REQUEST_FUNDING:
-      return startpageForMode()
+      return CONFIGURATION
     case PAID:
-      return startpageForMode()
+      return startpageForMode(mode)
     case REQUEST_PAYMENT:
       return PAID
     case SELECT_ITEMS:
@@ -44,10 +44,10 @@ export function nextPageFromCurrent(currentPage) {
   }
 }
 
-export function previousPageFromCurrent(currentPage) {
+export function previousPageFromCurrent(mode, currentPage) {
   switch (currentPage) {
     case REQUEST_PAYMENT:
-      return config.mode === 'AMOUNT' ? AMOUNT_INPUT : SELECT_ITEMS
+      return mode === 'AMOUNT' ? AMOUNT_INPUT : SELECT_ITEMS
     case CART:
       return SELECT_ITEMS_CART
   }
