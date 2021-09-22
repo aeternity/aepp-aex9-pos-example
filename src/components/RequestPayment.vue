@@ -12,7 +12,7 @@
           class="spinner"/>
       <qrcode-vue
           v-if="qrdata"
-          :value="'ZEITFESTIVAL' + JSON.stringify(qrdata)"
+          :value="JSON.stringify(qrdata)"
           :size="200"/>
 
     </div>
@@ -69,6 +69,14 @@ export default {
   async mounted() {
     this.invoiceId = await aeternity.pos.methods.new_invoice(this.totalTokenWithoutDecimals, {gasPrice: 1500000000}).then(r => r.decodedResult);
     this.qrdata = {invoiceId: this.invoiceId, amount: this.totalTokenWithoutDecimals};
+    this.qrdata = {
+      type: 'mPoS',
+      version: 1,
+      tokenContract: aeternity.tokenContractAddress,
+      amount: this.totalTokenWithoutDecimals,
+      invoiceId: this.invoiceId,
+      invoiceContract: aeternity.posContractAddress
+    }
     this.checkPaidInterval = setInterval(this.checkPaid, 1000);
   },
   beforeUnmount() {
