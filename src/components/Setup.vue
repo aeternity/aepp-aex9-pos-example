@@ -13,7 +13,7 @@
 
 import {mapMutations, mapState} from 'vuex'
 import aeternity from "@/utils/aeternity"
-import {REQUEST_FUNDING} from "@/utils/pages"
+import {CONFIGURATION, REQUEST_FUNDING} from "@/utils/pages"
 
 export default {
   data() {
@@ -25,7 +25,7 @@ export default {
     ...mapMutations(['nextPage', 'setTokenInfo', 'setKeypair']),
   },
   computed: {
-    ...mapState(['tokenInfo', 'keypair']),
+    ...mapState(['tokenInfo', 'keypair', 'config']),
   },
   async mounted() {
     if (this.keypair === null) {
@@ -33,13 +33,22 @@ export default {
     }
 
     await aeternity.init(this.keypair)
+
     const balance = await aeternity.checkBalance().catch(console.error)
 
-    if (balance && balance > 0) {
-      this.nextPage()
-    } else {
+    if (!balance) {
       this.nextPage(REQUEST_FUNDING)
     }
+
+    if (this.config !== null) {
+      await aeternity.initContracts(this.config)
+      this.setTokenInfo(await aeternity.getTokenMetaInfo())
+      document.title = `${this.tokenInfo.name}Pay | mPOS`
+      this.nextPage()
+    } else {
+      this.nextPage(CONFIGURATION)
+    }
+
   }
 }
 </script>
