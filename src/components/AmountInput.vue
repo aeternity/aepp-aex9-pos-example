@@ -1,13 +1,15 @@
 <template>
   <div class="header">
-    <div class="back-button">
-      <div class="checkout-heading">Order Details</div>
+    <div class="header-left-button">
+      <button @click="nextPage(CONFIGURATION)" class="secondary">⚙️</button>
     </div>
+    <div class="header-right-title">Order Details</div>
   </div>
 
   <div class="main">
     <div class="amount-input">
-      <input v-model="tokenAmount" type="number" min="0" :step="1 / decimalsPower" v-on:keyup.enter="nextPage()" /> {{ tokenInfo.symbol }}
+      <input v-model="tokenAmount" type="number" min="0" :step="1 / decimalsPower" v-on:keyup.enter="nextPage()"/>
+      {{ tokenInfo.symbol }}
     </div>
   </div>
 
@@ -30,6 +32,7 @@
 <script>
 
 import {mapState, mapMutations, mapGetters} from 'vuex'
+import {CONFIGURATION} from "@/utils/pages";
 
 export default {
   data() {
@@ -40,6 +43,7 @@ export default {
   computed: {
     ...mapState(['requestTokenAmount', 'tokenInfo', 'config']),
     ...mapGetters(['totalTokens', 'totalPrice', 'decimalsPower']),
+    CONFIGURATION: () => CONFIGURATION,
     tokenAmount: {
       get() {
         return this.requestTokenAmount;
@@ -47,7 +51,7 @@ export default {
       set(value) {
         this.setRequestTokenAmount(0) // stupid hack to force update for getter to update again
         this.setRequestTokenAmount(1) // stupid hack to force update for getter to update again
-        const roundedAmount = Math.floor(parseFloat(value) * this.decimalsPower  / this.decimalsPower)
+        const roundedAmount = Math.floor(parseFloat(value) * this.decimalsPower / this.decimalsPower)
         this.setRequestTokenAmount(roundedAmount || 0)
       }
     },
@@ -60,7 +64,6 @@ export default {
 
 <style lang="scss">
 @use "sass:color";
-@import "~@/assets/styles/items.scss";
 
 .amount-input {
   input {
@@ -74,30 +77,5 @@ export default {
   font-size: 2rem;
   margin: 4rem auto 6rem auto;
   text-align: center;
-}
-
-.back-button {
-  position: relative;
-  margin-bottom: 1rem;
-
-  button {
-    border-radius: 0.6rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: #fff;
-    background: #d12754;
-  }
-
-  .checkout-heading {
-    position: absolute;
-    top: 0.5rem;
-    font-size: 1.4rem;
-    right: 0;
-    opacity: 0.3;
-    font-weight: bold;
-  }
 }
 </style>

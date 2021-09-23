@@ -41,9 +41,6 @@ export default {
   methods: {
     ...mapMutations(['nextPage'])
   },
-  mounted() {
-    this.nextPage()
-  }
 }
 </script>
 

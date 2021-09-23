@@ -1,6 +1,6 @@
 import {createStore} from 'vuex'
 import items from "@/assets/content/items.json";
-import {nextPageFromCurrent, previousPageFromCurrent, SELECT_ITEMS_CART} from "@/utils/pages";
+import {nextPageFromCurrent, previousPageFromCurrent, SELECT_ITEMS_CART, SETUP} from "@/utils/pages";
 import VuexPersistence from 'vuex-persist';
 
 const store = createStore({
@@ -13,7 +13,7 @@ const store = createStore({
       config: null,
       keypair: null,
       tokenInfo: {decimals: 0, name: 'Token', symbol: 'TOKEN'},
-      page: null,
+      page: SETUP,
       requestTokenAmount: 0,
       cart: [],
       selectedItems: items.map(item => {

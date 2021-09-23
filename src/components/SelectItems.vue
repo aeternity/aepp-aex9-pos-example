@@ -1,8 +1,9 @@
 <template>
   <div class="header">
-    <div class="back-button">
-      <div class="checkout-heading">Order Details</div>
+    <div class="header-left-button">
+      <button @click="nextPage(CONFIGURATION)" class="secondary">⚙️</button>
     </div>
+    <div class="header-right-title">Order Details</div>
   </div>
 
   <div class="main">
@@ -43,11 +44,13 @@
 <script>
 
 import {mapState, mapMutations, mapGetters} from 'vuex'
+import {CONFIGURATION} from "@/utils/pages";
 
 export default {
   computed: {
     ...mapState(['selectedItems', 'tokenInfo', 'config']),
     ...mapGetters(['totalTokens', 'totalPrice']),
+    CONFIGURATION: () => CONFIGURATION,
   },
   methods: {
     ...mapMutations(['addSelectedItem', 'removeSelectedItem', 'nextPage']),
@@ -57,29 +60,4 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/styles/items.scss";
-
-.back-button {
-  position: relative;
-  margin-bottom: 1rem;
-
-  button {
-    border-radius: 0.6rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: #fff;
-    background: #d12754;
-  }
-
-  .checkout-heading {
-    position: absolute;
-    top: 0.5rem;
-    font-size: 1.4rem;
-    right: 0;
-    opacity: 0.3;
-    font-weight: bold;
-  }
-}
 </style>

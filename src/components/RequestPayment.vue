@@ -1,8 +1,6 @@
 <template>
-  <div class="header">
-    <div class="heading-primary">Payment Request</div>
-    <div class="heading-secondary">Scan the QR Code</div>
-  </div>
+  <div class="heading-primary">Payment Request</div>
+  <div class="heading-secondary">Scan the QR Code</div>
 
   <div class="main">
     <div class="qr-container"

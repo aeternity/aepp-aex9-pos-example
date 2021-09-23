@@ -1,23 +1,28 @@
 <template>
   <div class="header">
-    <button
-        class="filter-button"
-        :class="filter === 'ALL' ? 'selected' : null"
-        @click="filter = 'ALL'">
-      All
-    </button>
-    <button
-        class="filter-button"
-        :class="filter === 'DRINKS' ? 'selected' : null"
-        @click="filter = 'DRINKS'">
-      🍹 Drinks
-    </button>
-    <button
-        class="filter-button"
-        :class="filter === 'FOOD' ? 'selected' : null"
-        @click="filter = 'FOOD'">
-      🍔 Food
-    </button>
+    <div class="header-left-button">
+      <button @click="nextPage(CONFIGURATION)" class="secondary">⚙️</button>
+    </div>
+    <div class="header-right">
+      <button
+          class="filter-button"
+          :class="filter === 'ALL' ? 'selected' : null"
+          @click="filter = 'ALL'">
+        All
+      </button>
+      <button
+          class="filter-button"
+          :class="filter === 'DRINKS' ? 'selected' : null"
+          @click="filter = 'DRINKS'">
+        🍹 Drinks
+      </button>
+      <button
+          class="filter-button"
+          :class="filter === 'FOOD' ? 'selected' : null"
+          @click="filter = 'FOOD'">
+        🍔 Food
+      </button>
+    </div>
   </div>
   <div class="main">
     <div class="item-heading">Select Items</div>
@@ -55,6 +60,7 @@
 
 import {mapState, mapMutations} from 'vuex'
 import items from '@/assets/content/items.json';
+import {CONFIGURATION} from "@/utils/pages";
 
 export default {
   data() {
@@ -64,6 +70,7 @@ export default {
   },
   computed: {
     ...mapState(['cart', 'tokenInfo', 'config']),
+    CONFIGURATION: () => CONFIGURATION,
     filteredItems() {
       return this.filter === 'ALL' ? items : items.filter(item => item.type === this.filter)
     },
@@ -89,7 +96,7 @@ export default {
   color: #d12754;
   background: color.adjust(#d12754, $alpha: -0.9);
   padding: 0.5rem 0.8rem;
-  margin: 0 0.5rem 1rem 0;
+  margin: 0 0.5rem 0 0;
   min-width: 4rem;
   outline: none;
 
