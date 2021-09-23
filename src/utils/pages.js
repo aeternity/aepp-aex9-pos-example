@@ -22,11 +22,11 @@ function startpageForMode(mode) {
 export function nextPageFromCurrent(mode, currentPage) {
   switch (currentPage) {
     case SETUP:
-      return CONFIGURATION
+      return startpageForMode(mode)
     case CONFIGURATION:
       return startpageForMode(mode)
     case REQUEST_FUNDING:
-      return CONFIGURATION
+      return SETUP
     case PAID:
       return startpageForMode(mode)
     case REQUEST_PAYMENT:

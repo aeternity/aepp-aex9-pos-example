@@ -33,7 +33,7 @@
 
 import {mapMutations, mapState} from 'vuex'
 import deprecatedConfig from '@/assets/content/config.json';
-import aeternity from '@/utils/aeternity';
+import {SETUP} from "@/utils/pages";
 
 export default {
   components: {},
@@ -46,20 +46,11 @@ export default {
     ...mapMutations(['nextPage', 'resetConfig', 'setConfig', 'setTokenInfo']),
     createConfig() {
       this.setConfig(deprecatedConfig)
-      this.nextPage()
+      this.nextPage(SETUP)
     },
   },
   computed: {
     ...mapState(['config', 'keypair', 'tokenInfo']),
-  },
-  async created() {
-    if (aeternity.ready && this.config !== null) return this.nextPage()
-    if (!aeternity.ready) {
-      await aeternity.initContracts(this.config)
-      this.setTokenInfo({...await aeternity.getTokenMetaInfo(), decimals:0})
-      document.title = `${this.tokenInfo.name}Pay | mPOS`
-      return this.nextPage()
-    }
   },
 }
 </script>
