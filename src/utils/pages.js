@@ -46,6 +46,8 @@ export function nextPageFromCurrent(mode, currentPage) {
 
 export function previousPageFromCurrent(mode, currentPage) {
   switch (currentPage) {
+    case CONFIGURATION:
+      return startpageForMode(mode)
     case REQUEST_PAYMENT:
       return mode === 'AMOUNT' ? AMOUNT_INPUT : SELECT_ITEMS
     case CART:

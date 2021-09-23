@@ -1,6 +1,9 @@
 <template>
   <div class="header">
-    <div class="heading-primary">Configure mPOS</div>
+    <div class="header-left-button" v-if="config !== null">
+      <button @click="previousPage()" class="secondary"><img src="../assets/img/back-arrow.svg"></button>
+    </div>
+    <div class="header-right-title">Configure mPOS</div>
   </div>
 
   <div class="main" v-if="config === null">
@@ -43,7 +46,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['nextPage', 'resetConfig', 'setConfig', 'setTokenInfo']),
+    ...mapMutations(['nextPage', 'previousPage', 'resetConfig', 'setConfig', 'setTokenInfo']),
     createConfig() {
       this.setConfig(deprecatedConfig)
       this.nextPage(SETUP)
@@ -55,7 +58,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .text-margin-top {
   margin-top: 3rem;
 }

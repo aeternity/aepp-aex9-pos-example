@@ -36,17 +36,17 @@ export default {
 
     const balance = await aeternity.checkBalance().catch(console.error)
 
-    if (!balance) {
-      this.nextPage(REQUEST_FUNDING)
+    if (!balance || parseInt(balance) === 0) {
+      return this.nextPage(REQUEST_FUNDING)
     }
 
     if (this.config !== null) {
       await aeternity.initContracts(this.config)
       this.setTokenInfo(await aeternity.getTokenMetaInfo())
       document.title = `${this.tokenInfo.name}Pay | mPOS`
-      this.nextPage()
+      return this.nextPage()
     } else {
-      this.nextPage(CONFIGURATION)
+      return this.nextPage(CONFIGURATION)
     }
 
   }

@@ -1,9 +1,9 @@
 <template>
   <div class="header">
-    <div class="back-button">
+    <div class="header-left-button">
       <button @click="previousPage()"><img src="../assets/img/back-arrow.svg"></button>
-      <div class="checkout-heading">Order Details</div>
     </div>
+    <div class="header-right-title">Order Details</div>
   </div>
 
   <div class="main">
@@ -56,31 +56,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "~@/assets/styles/items.scss";
-
-.back-button {
-  position: relative;
-  margin-bottom: 1rem;
-
-  button {
-    border-radius: 0.6rem;
-    width: 2.5rem;
-    height: 2.5rem;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: #fff;
-    background: #d12754;
-  }
-
-  .checkout-heading {
-    position: absolute;
-    top: 0.5rem;
-    font-size: 1.4rem;
-    right: 0;
-    opacity: 0.3;
-    font-weight: bold;
-  }
-}
-</style>
