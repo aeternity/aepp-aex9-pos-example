@@ -59,10 +59,10 @@ const store = createStore({
       state.tokenInfo = tokenInfo
     },
     nextPage(state, page) {
-      state.page = page || nextPageFromCurrent(state.config.mode, state.page)
+      state.page = page || nextPageFromCurrent(state.config && state.config.mode, state.page)
     },
     previousPage(state) {
-      state.page = previousPageFromCurrent(state.config.mode, state.page)
+      state.page = previousPageFromCurrent(state.config && state.config.mode, state.page)
     },
     removeFromCart(state, item) {
       const thisItems = state.cart.filter(i => i.id === item.id);

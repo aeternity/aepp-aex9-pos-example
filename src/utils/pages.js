@@ -7,6 +7,7 @@ export const PAID = 'PAID'
 export const SELECT_ITEMS_CART = 'SELECT_ITEMS_CART'
 export const CART = 'CART'
 export const CONFIGURATION = 'CONFIGURATION'
+export const CREATE_CONFIGURATION = 'CREATE_CONFIGURATION'
 
 function startpageForMode(mode) {
   switch (mode) {
@@ -39,6 +40,8 @@ export function nextPageFromCurrent(mode, currentPage) {
       return CART
     case CART:
       return REQUEST_PAYMENT
+    case CREATE_CONFIGURATION:
+      return startpageForMode(mode)
     default:
       return SETUP
   }
@@ -46,6 +49,8 @@ export function nextPageFromCurrent(mode, currentPage) {
 
 export function previousPageFromCurrent(mode, currentPage) {
   switch (currentPage) {
+    case CREATE_CONFIGURATION:
+      return CONFIGURATION
     case CONFIGURATION:
       return startpageForMode(mode)
     case REQUEST_PAYMENT:

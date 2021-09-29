@@ -44,7 +44,7 @@
   </div>
 
   <div class="bottom">
-    <div class="bottom-divider"/>
+    <div class="divider"/>
     <div class="bottom-summary">Items
       <div class="bottom-summary-right">
         {{ cart.length }}
