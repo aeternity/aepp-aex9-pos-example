@@ -31,6 +31,7 @@ const store = createStore({
     },
     resetConfig(state) {
       state.config = null
+      this.nextPage(SETUP)
     },
     setRequestTokenAmount(state, amount) {
       state.requestTokenAmount = amount
