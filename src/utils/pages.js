@@ -25,7 +25,7 @@ export function nextPageFromCurrent(mode, currentPage) {
     case SETUP:
       return startpageForMode(mode)
     case CONFIGURATION:
-      return startpageForMode(mode)
+      return SETUP
     case REQUEST_FUNDING:
       return SETUP
     case PAID:

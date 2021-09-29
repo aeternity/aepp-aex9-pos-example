@@ -1,3 +1,4 @@
+module.exports = `
 // ISC License
 //
 // Copyright (c) 2017, aeternity developers
@@ -237,3 +238,4 @@ main contract FungibleTokenFull =
     require_non_negative_value(new_allowance)
     put(state{ allowances[allowance_accounts] = new_allowance })
     Chain.event(Allowance(allowance_accounts.from_account, allowance_accounts.for_account, new_allowance))
+`;

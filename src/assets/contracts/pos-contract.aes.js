@@ -1,3 +1,4 @@
+module.exports = `
 // ISC License
 // Copyright (c) 2021, aeternity developers
 //
@@ -50,3 +51,4 @@ main contract PoS =
         else
           require(value == invoice_data.price, "BURN VALUE HAS TO MATCH INVOICE PRICE")
           put(state{ invoices[id].paid = true })
+`
