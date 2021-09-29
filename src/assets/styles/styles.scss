@@ -102,14 +102,11 @@ button {
   width: 100%;
   position: relative;
 
-  .bottom-divider {
+  .divider {
     position: absolute;
     height: 40px;
     top: -40px;
     width: 100%;
-    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 90%, #fff);
-    border-bottom: 1px dashed color.adjust(#181818, $alpha: -0.8);
-    margin: 0 0 1rem 0;
   }
 
   .bottom-summary {
@@ -125,6 +122,13 @@ button {
       opacity: 0.5;
     }
   }
+}
+
+.divider {
+  width: 100%;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #fff 90%, #fff);
+  border-bottom: 1px dashed color.adjust(#181818, $alpha: -0.8);
+  margin: 0 0 1rem 0;
 }
 
 .full-width-button {

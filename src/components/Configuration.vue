@@ -14,7 +14,7 @@
 
   <div class="main">
     <div v-if="scanqr">
-      <qrcode-stream @decode="onDecode" />
+      <qrcode-stream @decode="onDecode"/>
     </div>
     <div v-if="!scanqr && qrdata !== null">
       <div class="qr-container"
@@ -34,12 +34,12 @@
           Join Existing Event
         </button>
 
-        <div class="text-margin-top">Create a new mPOS event, deploy the contracts, mint tokens and create a
-          configuration
-          to be scanned by other mPOS devices
+        <div class="text-margin-top">
+          Create a new mPOS event, deploy the contracts, mint tokens and create a configuration to be scanned by other
+          mPOS devices
         </div>
 
-        <button class="full-width-button secondary" @click="createConfig()">
+        <button class="full-width-button secondary" @click="nextPage(CREATE_CONFIGURATION)">
           Create New Event
         </button>
       </div>
@@ -65,7 +65,7 @@
 
 import {mapMutations, mapState} from 'vuex'
 import deprecatedConfig from '@/assets/content/config.json';
-import {SETUP} from "@/utils/pages";
+import {CREATE_CONFIGURATION, SETUP} from "@/utils/pages";
 import QrcodeVue from "qrcode.vue";
 import {QrcodeStream} from "vue3-qrcode-reader";
 
@@ -94,6 +94,7 @@ export default {
   },
   computed: {
     ...mapState(['config', 'keypair', 'tokenInfo']),
+    CREATE_CONFIGURATION: () => CREATE_CONFIGURATION,
   },
 }
 </script>

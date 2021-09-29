@@ -14,7 +14,7 @@
   </div>
 
   <div class="bottom">
-    <div class="bottom-divider"/>
+    <div class="divider"/>
     <div class="bottom-summary">Total
       <div class="bottom-summary-right" v-if="config.showFiat">
         € {{ totalPrice }} ({{ totalTokens }} {{ tokenInfo.symbol }})

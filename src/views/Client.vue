@@ -39,15 +39,6 @@ export default {
 <style>
 @import "~@/assets/styles/styles.scss";
 
-#app {
-  font-family: Rubik, Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
 .icon {
   display: block;
   font-size: 4rem;
