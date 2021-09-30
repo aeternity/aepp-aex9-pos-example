@@ -33,20 +33,20 @@ aeternity.init = async ({publicKey, secretKey}) => {
   })
 }
 
-aeternity.initContracts = async(config) => {
+aeternity.initContracts = async (config) => {
   aeternity.token = await aeternity.client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT_INTERFACE, {contractAddress: config.tokenContractAddress})
   aeternity.pos = await aeternity.client.getContractInstance(POS_CONTRACT_INTERFACE, {contractAddress: config.posContractAddress})
 
   aeternity.ready = true
 }
 
-aeternity.deployContracts = async(name, symbol, decimals, mintedAmount, mintToAccount) => {
+aeternity.deployContracts = async (name, symbol, decimals, mintedAmount, mintToAccount) => {
   aeternity.token = await aeternity.client.getContractInstance(FUNGIBLE_TOKEN_CONTRACT)
-  await aeternity.token.methods.init(name, decimals, symbol, mintedAmount)
-  await aeternity.token.methods.transfer(mintToAccount, mintedAmount)
+  await aeternity.token.methods.init(name, decimals, symbol, mintedAmount, {gasPrice: 1500000000})
+  await aeternity.token.methods.transfer(mintToAccount, mintedAmount, {gasPrice: 1500000000})
 
   aeternity.pos = await aeternity.client.getContractInstance(POS_CONTRACT)
-  await aeternity.pos.methods.init(aeternity.token.deployInfo.address)
+  await aeternity.pos.methods.init(aeternity.token.deployInfo.address, {gasPrice: 1500000000})
 
   aeternity.ready = true
 

@@ -45,8 +45,19 @@
       </div>
 
       <div class="main" v-if="config !== null">
+        <div>mPoS Public Key:</div>
         <div class="public-key truncate-text" v-if="keypair !== null" @click="qrdata = keypair.publicKey">
           {{ keypair.publicKey }}
+        </div>
+
+        <div>mPoS Token:</div>
+        <div class="public-key truncate-text" v-if="keypair !== null" @click="qrdata = config.tokenContractAddress">
+          {{ config.tokenContractAddress }}
+        </div>
+
+        <div>mPoS Contract:</div>
+        <div class="public-key truncate-text" v-if="keypair !== null" @click="qrdata = config.posContractAddress">
+          {{ config.posContractAddress }}
         </div>
 
         <button class="full-width-button" @click="qrdata = JSON.stringify(config)">
@@ -82,7 +93,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(['nextPage', 'previousPage', 'resetConfig', 'setConfig', 'setTokenInfo']),
+    ...mapMutations(['nextPage', 'previousPage', 'setConfig', 'setTokenInfo']),
     createConfig() {
       this.setConfig(deprecatedConfig)
       this.nextPage(SETUP)
@@ -90,6 +101,11 @@ export default {
     async onDecode(decodedString) {
       this.setConfig(JSON.parse(decodedString))
       this.scanqr = false
+      this.nextPage(SETUP)
+    },
+    resetConfig() {
+      this.setConfig(null)
+      this.nextPage(SETUP)
     }
   },
   computed: {
@@ -111,10 +127,11 @@ export default {
 }
 
 .truncate-text {
-  width: 100%;
+  width: calc(100% - 0.5rem);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-left: 0.5rem;
 }
 
 .main {
