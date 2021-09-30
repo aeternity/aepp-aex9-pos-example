@@ -29,10 +29,6 @@ const store = createStore({
     setConfig(state, config) {
       state.config = config
     },
-    resetConfig(state) {
-      state.config = null
-      this.nextPage(SETUP)
-    },
     setRequestTokenAmount(state, amount) {
       state.requestTokenAmount = amount
     },
