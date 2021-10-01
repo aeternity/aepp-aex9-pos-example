@@ -68,10 +68,10 @@ export default {
     this.qrdata = {
       type: 'mPoS',
       version: 1,
-      tokenContract: aeternity.tokenContractAddress,
+      tokenContract: this.config.tokenContractAddress,
       amount: this.totalTokenWithoutDecimals,
       invoiceId: this.invoiceId,
-      invoiceContract: aeternity.posContractAddress
+      invoiceContract: this.config.posContractAddress
     }
     this.checkPaidInterval = setInterval(this.checkPaid, 1000);
   },
