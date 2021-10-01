@@ -7,17 +7,20 @@
 <script>
 import aeternity from '../utils/aeternity';
 import {QrcodeStream} from 'vue3-qrcode-reader';
+import {mapState} from "vuex";
 
 export default {
   name: 'Client',
   components: {
     QrcodeStream
   },
-
   data() {
     return {
       state: 'NOT_READY'
     };
+  },
+  computed: {
+    ...mapState(['config']),
   },
   methods: {
     async onDecode(decodedString) {
@@ -25,7 +28,7 @@ export default {
       const jsonString = decodedString.replace('ZEITFESTIVAL', '');
       const invoiceData = JSON.parse(jsonString);
 
-      await aeternity.token.methods.burn_trigger_pos(invoiceData.amount, aeternity.posContractAddress, invoiceData.invoiceId);
+      await aeternity.token.methods.burn_trigger_pos(invoiceData.amount, this.config.posContractAddress, invoiceData.invoiceId);
       this.state = '✅';
     }
   },
